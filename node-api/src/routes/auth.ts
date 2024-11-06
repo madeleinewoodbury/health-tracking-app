@@ -1,5 +1,7 @@
 import { Router } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body } from 'express-validator'
+import { handleInputErrors } from '../modules/middleware'
+import { createUser } from '../handlers/auth'
 
 const router = Router()
 
@@ -11,14 +13,8 @@ router.post(
 	body('firstName').isString(),
 	body('lastName').isString(),
 	body('dob').isISO8601(), // Format: YYYY-MM-DD
-	(req, res) => {
-		const errors = validationResult(req)
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() })
-		}
-
-		res.send('Register')
-	}
+	handleInputErrors,
+	createUser
 )
 
 export default router
