@@ -1,0 +1,35 @@
+# Node.js dependencies (node_modules) in all subdirectories
+**/node_modules
+
+# Python virtual environment directories in all subdirectories
+**/__pycache__
+**/.venv
+**/venv
+**/.mypy_cache
+
+# Environment files in all subdirectories
+**/.env
+**/.env.*
+
+# Logs
+**/logs
+**/*.log
+**/tmp
+
+# Build files for React
+react-client/build
+
+# Ignore Docker artifacts
+**/.dockerignore
+**/Dockerfile
+**/docker-compose.override.yml
+
+# Ignore Kubernetes manifest backups or temporary files
+**/k8s-manifests/*.bak
+**/k8s-manifests/*.tmp
+
+# Ignore IDE and OS-specific files
+.DS_Store
+*.swp
+.idea/
+.vscode/
