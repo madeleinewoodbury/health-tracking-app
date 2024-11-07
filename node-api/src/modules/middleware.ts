@@ -1,13 +1,12 @@
 import { validationResult } from 'express-validator'
 
 /**
- * Handle input errors
+ * This middleware function checks if there are any errors in the request body
+ * and returns a 400 status code with the errors if there are any.
  * @param req
  * @param res
  * @param next
  * @returns {*}
- * @description This middleware function checks if there are any errors in the request body
- * and returns a 400 status code with the errors if there are any.
  */
 export const handleInputErrors = (req, res, next) => {
 	const errors = validationResult(req)

@@ -5,10 +5,11 @@ import { createUser, signIn } from '../handlers/auth'
 
 const router = Router()
 
-/**
+/*
  * POST /auth/register
- * Request body: { username, email, password, firstName, lastName, dob }
- * Registers a new user in the database. Returns a JWT token.
+ * Access: Public
+ * Body: { username, email, password, firstName, lastName, dob }
+ * Description: Registers a new user in the database. Returns a JWT token.
  */
 router.post(
 	'/register',
@@ -22,10 +23,11 @@ router.post(
 	createUser
 )
 
-/**
+/*
  * POST /auth/login
- * Request body: { identifier, password }
- * Authenticates a user using their username or email and password. Returns a JWT token.
+ * Access: Public
+ * Body: { identifier, password }
+ * Description: Authenticates a user using their username or email and password. Returns a JWT token.
  */
 router.post(
 	'/login',
