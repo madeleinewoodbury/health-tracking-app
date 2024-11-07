@@ -31,7 +31,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  symptomLogs     SymptomLog[]
+  symptomLogs     UserSymptomLog[]
   providerProfile ProviderProfile[]
   activityLog     ActivityLog[]
 }
@@ -43,24 +43,32 @@ model Symptom {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  symptomLogs SymptomLog[]
+  userSymptomEntries UserSymptomEntry[]
 }
 
-model SymptomLog {
-  id           String    @id @default(uuid())
-  userId       String
+model UserSymptomLog {
+  id         String   @id @default(uuid())
+  userId     String
+  locationId String
+  recordedAt DateTime @default(now())
+
+  user               User               @relation(fields: [userId], references: [id])
+  location           Location           @relation(fields: [locationId], references: [id])
+  userSymptomEntries UserSymptomEntry[]
+}
+
+model UserSymptomEntry {
+  logId        String
   symptomId    String
-  locationId   String
   severity     Int?
   symptomStart DateTime?
   symptomEnd   DateTime?
   description  String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
 
-  user     User     @relation(fields: [userId], references: [id])
-  symptom  Symptom  @relation(fields: [symptomId], references: [id])
-  location Location @relation(fields: [locationId], references: [id])
+  symptom Symptom        @relation(fields: [symptomId], references: [id])
+  log     UserSymptomLog @relation(fields: [logId], references: [id])
+
+  @@unique([logId, symptomId])
 }
 
 model Location {
@@ -77,7 +85,7 @@ model Location {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  symptomLogs     SymptomLog[]
+  symptomLogs     UserSymptomLog[]
   providerProfile ProviderProfile[]
   activityLog     ActivityLog[]
 }
