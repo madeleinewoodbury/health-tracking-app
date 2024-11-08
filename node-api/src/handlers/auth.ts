@@ -17,9 +17,8 @@ export const createUser = async (req, res) => {
 				username: req.body.username,
 				email: req.body.email,
 				password: await hashPassword(req.body.password),
-				firstName: req.body.firstName,
-				lastName: req.body.lastName,
-				dob: new Date(req.body.dob),
+				age: req.body.age,
+				gender: req.body.gender,
 			},
 		})
 

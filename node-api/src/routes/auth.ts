@@ -16,9 +16,8 @@ router.post(
 	body('username').isString(),
 	body('email').isEmail(),
 	body('password').isString().isLength({ min: 8 }),
-	body('firstName').isString(),
-	body('lastName').isString(),
-	body('dob').isISO8601(), // Format: YYYY-MM-DD
+	body('age').isInt(),
+	body('gender').isIn(['MALE', 'FEMALE', 'OTHER']),
 	handleInputErrors,
 	createUser
 )
