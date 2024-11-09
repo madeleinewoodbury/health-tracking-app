@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import prisma from '../db'
 
 /**
@@ -53,17 +54,15 @@ export const updateSymptom = async (req, res) => {
  */
 export const getSymptoms = async (req, res) => {
 	try {
-		// Set the limit and offset for the query
-		const limit = req.query.limit ? parseInt(req.query.limit) : 10
-		const offset = req.query.offset ? parseInt(req.query.offset) : 0
-
-		const symptoms = await prisma.symptom.findMany({
-			skip: offset,
-			take: limit,
+		const options = {
+			...(req.query.limit && { take: parseInt(req.query.limit) }),
+			...(req.query.offset && { skip: parseInt(req.query.offset) }),
 			orderBy: {
-				name: 'asc',
+				name: 'asc' as Prisma.SortOrder,
 			},
-		})
+		}
+
+		const symptoms = await prisma.symptom.findMany(options)
 
 		res.json({ count: symptoms.length, data: symptoms })
 	} catch (error) {

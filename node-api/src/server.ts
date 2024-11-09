@@ -4,6 +4,7 @@ import { protect } from './modules/auth'
 import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
 import userSymptomLogRouter from './routes/userSymptomLog'
+import countryRouter from './routes/country'
 
 const app = express()
 
@@ -18,6 +19,6 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRouter)
-app.use('/api', protect, symptomRouter, userSymptomLogRouter)
+app.use('/api', protect, symptomRouter, userSymptomLogRouter, countryRouter)
 
 export default app
