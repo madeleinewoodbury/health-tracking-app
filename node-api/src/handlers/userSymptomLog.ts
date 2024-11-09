@@ -86,3 +86,109 @@ export const createUserSymptomLog = async (req, res) => {
 		}
 	}
 }
+
+/**
+ * Retrieves all symptom logs for the authenticated user.
+ *
+ * @param req - The request object, containing the authenticated user's information.
+ * @param res - The response object used to send back the retrieved symptom logs or an error message.
+ *
+ * @returns A JSON response containing the user's symptom logs or an error message if the operation fails.
+ */
+export const getUserSymptomLogs = async (req, res) => {
+	try {
+		// Find all logs that belongs to the user
+		const userSymptomLogs = await prisma.userSymptomLog.findMany({
+			where: { userId: req.user.id },
+			select: {
+				id: true,
+				recordedAt: true,
+				location: {
+					select: {
+						city: true,
+						state: true,
+						country: {
+							select: {
+								name: true,
+							},
+						},
+					},
+				},
+				userSymptomEntries: {
+					select: {
+						severity: true,
+						symptomStart: true,
+						symptomEnd: true,
+						description: true,
+						symptom: {
+							select: {
+								name: true,
+							},
+						},
+					},
+				},
+			},
+		})
+
+		// Send response with user symptom logs
+		res.json({ count: userSymptomLogs.length, data: userSymptomLogs })
+	} catch (error) {
+		console.error('Failed to get user symptom log:', error)
+		res.status(500).json({ error: 'Internal Server Error' })
+	}
+}
+
+/**
+ * Retrieves a user symptom log by its ID and the user's ID.
+ *
+ * @param req - The request object containing the parameters and user information.
+ * @param res - The response object used to send the response.
+ * @returns A JSON response containing the user symptom log data or an error message.
+ *
+ */
+export const getUserSymptomLogById = async (req, res) => {
+	try {
+		// Find the log by id and user id
+		const userSymptomLog = await prisma.userSymptomLog.findUnique({
+			where: { id: req.params.id, userId: req.user.id },
+			select: {
+				id: true,
+				recordedAt: true,
+				location: {
+					select: {
+						city: true,
+						state: true,
+						country: {
+							select: {
+								name: true,
+							},
+						},
+					},
+				},
+				userSymptomEntries: {
+					select: {
+						severity: true,
+						symptomStart: true,
+						symptomEnd: true,
+						description: true,
+						symptom: {
+							select: {
+								name: true,
+							},
+						},
+					},
+				},
+			},
+		})
+
+		if (!userSymptomLog) {
+			return res.status(404).json({ error: 'Symptom log not found' })
+		}
+
+		// Send response with user symptom log
+		res.json({ data: userSymptomLog })
+	} catch (error) {
+		console.error('Failed to get user symptom log by id:', error)
+		res.status(500).json({ error: 'Internal Server Error' })
+	}
+}

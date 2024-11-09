@@ -2,7 +2,11 @@ import { Router } from 'express'
 import { body } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
 import { isUser } from '../modules/auth'
-import { createUserSymptomLog } from '../handlers/userSymptomLog'
+import {
+	createUserSymptomLog,
+	getUserSymptomLogs,
+	getUserSymptomLogById,
+} from '../handlers/userSymptomLog'
 
 const router = Router()
 
@@ -15,7 +19,6 @@ const router = Router()
 router.post(
 	'/user-symptom-log',
 	isUser,
-	// body('symptoms').isArray().notEmpty(),
 	body('symptoms').custom((symptoms) => {
 		if (!Array.isArray(symptoms) || symptoms.length === 0) {
 			throw new Error('At least one symptom is required')
@@ -33,5 +36,19 @@ router.post(
 	handleInputErrors,
 	createUserSymptomLog
 )
+
+/*
+ * GET /user-symptom-log
+ * Access: User
+ * Description: Get all the symptoms logged by the user
+ */
+router.get('/user-symptom-log', isUser, getUserSymptomLogs)
+
+/*
+ * GET /user-symptom-log/:id
+ * Access: User
+ * Description: Get a specific symptom logged by the user
+ */
+router.get('/user-symptom-log/:id', isUser, getUserSymptomLogById)
 
 export default router
