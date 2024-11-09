@@ -8,7 +8,7 @@ const router = Router()
 /*
  * POST /auth/register
  * Access: Public
- * Body: { username, email, password, firstName, lastName, dob }
+ * Body: { username, email, password, age, gender, nationality }
  * Description: Registers a new user in the database. Returns a JWT token.
  */
 router.post(
@@ -18,6 +18,7 @@ router.post(
 	body('password').isString().isLength({ min: 8 }),
 	body('age').isInt(),
 	body('gender').isIn(['MALE', 'FEMALE', 'OTHER']),
+	body('nationality').isString(),
 	handleInputErrors,
 	createUser
 )

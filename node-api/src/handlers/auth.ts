@@ -11,6 +11,19 @@ import { createJWT, hashPassword, comparePasswords } from '../modules/auth'
  */
 export const createUser = async (req, res) => {
 	try {
+		const alpha2 = req.body.nationality.toUpperCase()
+
+		// Find the country in the database
+		const country = await prisma.country.findFirst({
+			where: { alpha2 },
+		})
+
+		// Check if the country exists
+		if (!country) {
+			res.status(400).json({ message: 'Invalid Country' })
+			return
+		}
+
 		// Create the user in the database
 		const user = await prisma.user.create({
 			data: {
@@ -19,6 +32,11 @@ export const createUser = async (req, res) => {
 				password: await hashPassword(req.body.password),
 				age: req.body.age,
 				gender: req.body.gender,
+				country: {
+					connect: {
+						alpha2,
+					},
+				},
 			},
 		})
 

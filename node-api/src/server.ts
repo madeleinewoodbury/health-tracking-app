@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import { protect } from './modules/auth'
 import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
+import userSymptomLogRouter from './routes/userSymptomLog'
 
 const app = express()
 
@@ -17,6 +18,6 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRouter)
-app.use('/api', protect, symptomRouter)
+app.use('/api', protect, symptomRouter, userSymptomLogRouter)
 
 export default app
