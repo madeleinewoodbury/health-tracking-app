@@ -1,3 +1,5 @@
+import { GeocodingError } from './errors'
+
 interface GeocodingResponse {
 	name: string
 	latitude: number
@@ -25,21 +27,22 @@ interface LocationDataResponse {
 export const findOrUpdateLocation = async (tx, city, country, state) => {
 	let location
 
-	if (state) {
-		// Check if location already exists in database
-		location = await tx.location.findFirst({
-			where: { city, state, countryId: country.id },
-		})
+	// Check if location already exists in database
+	location = await tx.location.findFirst({
+		where: { city, state, countryId: country.id },
+	})
 
-		if (location) {
-			return location
-		}
+	if (location) {
+		return location
 	}
 
 	// Get coordinates for location - required for new location
 	const coordinates = await getCoordinates(city, country.alpha2, state)
 	if (!coordinates) {
-		throw new Error('Coordinates not found. Please check the location details.')
+		const locationState = `city: ${city}, ${
+			state ? 'state: ' + state + ', ' : ''
+		}country: ${country.alpha2}`
+		throw new GeocodingError(`Could not find coordinates for ${locationState}`)
 	}
 
 	// Check if location already exists in database by coordinates
@@ -107,14 +110,14 @@ export const getCoordinates = async (
 		)
 
 		if (!response.ok) {
-			console.error('Geocoding failed:', response.statusText)
-			return null
+			// console.error('Geocoding failed:', response.statusText)
+			// return null
+			throw new GeocodingError(response.statusText)
 		}
 
 		const data = (await response.json()) as GeocodingResponse[]
 
 		if (data.length === 0) {
-			console.error('No results found for location')
 			return null
 		}
 
@@ -129,8 +132,7 @@ export const getCoordinates = async (
 		// Return first result if no state is provided or no matching state is found
 		return data[0]
 	} catch (error) {
-		console.error('Geocoding error:', error)
-		return null
+		throw new GeocodingError(error.message)
 	}
 }
 
@@ -163,8 +165,9 @@ export const getLocationData = async (
 		)
 
 		if (!response.ok) {
-			console.error('Reverse geocoding failed:', response.statusText)
-			return null
+			throw new GeocodingError(
+				`Reverse geocoding failed: ${response.statusText}`
+			)
 		}
 
 		const data = (await response.json()) as LocationDataResponse[]
@@ -176,7 +179,6 @@ export const getLocationData = async (
 
 		return data[0]
 	} catch (error) {
-		console.error('Reverse geocoding error:', error)
-		return null
+		throw new GeocodingError(`Reverse geocoding error: ${error.message}`)
 	}
 }

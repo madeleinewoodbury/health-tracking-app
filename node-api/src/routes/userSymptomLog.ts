@@ -1,11 +1,13 @@
 import { Router } from 'express'
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
 import { isUser } from '../modules/auth'
 import {
 	createUserSymptomLog,
 	getUserSymptomLogs,
 	getUserSymptomLogById,
+	updateSymptomLog,
+	deleteUserSymptomLog,
 } from '../handlers/userSymptomLog'
 
 const router = Router()
@@ -26,9 +28,9 @@ router.post(
 		return true
 	}),
 	body('symptoms.*.id').isString(),
-	body('symptoms.*.severity').isInt({ min: 1, max: 10 }),
-	body('symptoms.*.startDate').isISO8601(), // YYYY-MM-DD
-	body('symptoms.*.endDate').isISO8601().optional(), // YYYY-MM-DD
+	body('symptoms.*.severity').isInt({ min: 1, max: 10 }).optional(),
+	body('symptoms.*.symptomStart').isISO8601().optional(), // YYYY-MM-DD
+	body('symptoms.*.symptomEnd').isISO8601().optional(), // YYYY-MM-DD
 	body('symptoms.*.description').isString().optional(),
 	body('location.city').isString(),
 	body('location.state').isString().optional(),
@@ -50,5 +52,42 @@ router.get('/user-symptom-log', isUser, getUserSymptomLogs)
  * Description: Get a specific symptom logged by the user
  */
 router.get('/user-symptom-log/:id', isUser, getUserSymptomLogById)
+
+/*
+ * PUT /user-symptom-log/:logId
+ * Access: User
+ * Description: Update a specific symptom logged by the user
+ */
+router.put(
+	'/user-symptom-log/:logId',
+	isUser,
+	body('symptoms').custom((symptoms) => {
+		if (!Array.isArray(symptoms) || symptoms.length === 0) {
+			throw new Error('At least one symptom is required')
+		}
+		return true
+	}),
+	body('symptoms.*.id').isString(),
+	body('symptoms.*.severity').isInt({ min: 1, max: 10 }).optional(),
+	body('symptoms.*.symptomStart').isISO8601().optional(), // YYYY-MM-DD
+	body('symptoms.*.symptomEnd').isISO8601().optional(), // YYYY-MM-DD
+	body('symptoms.*.description').isString().optional(),
+	body('location').isObject().optional(),
+	body('location.city').if(body('location').exists()).isString().optional(),
+	body('location.state').if(body('location').exists()).isString().optional(),
+	body('location.countryCode')
+		.if(body('location').exists())
+		.isString()
+		.optional(),
+	handleInputErrors,
+	updateSymptomLog
+)
+
+/*
+ * DELETE /user-symptom-log/:logId
+ * Access: User
+ * Description: Delete a specific symptom logged by the user
+ */
+router.delete('/user-symptom-log/:logId', isUser, deleteUserSymptomLog)
 
 export default router

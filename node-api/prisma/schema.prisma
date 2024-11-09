@@ -60,6 +60,7 @@ model UserSymptomLog {
   userId     String
   locationId String
   recordedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   user               User               @relation(fields: [userId], references: [id])
   location           Location           @relation(fields: [locationId], references: [id])
@@ -75,9 +76,9 @@ model UserSymptomEntry {
   description  String?
 
   symptom Symptom        @relation(fields: [symptomId], references: [id])
-  log     UserSymptomLog @relation(fields: [logId], references: [id])
+  log     UserSymptomLog @relation(fields: [logId], references: [id], onDelete: Cascade)
 
-  @@unique([logId, symptomId])
+  @@id([logId, symptomId])
 }
 
 model Location {
