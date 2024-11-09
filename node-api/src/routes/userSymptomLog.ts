@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
+import { isUser } from '../modules/auth'
+import { createUserSymptomLog } from '../handlers/userSymptomLog'
 
 const router = Router()
 
@@ -12,22 +14,24 @@ const router = Router()
  */
 router.post(
 	'/user-symptom-log',
-	body('symptoms').isArray(),
-	body('symptoms.*.name').isString(),
-	body('symptoms.*.severity').isInt(),
+	isUser,
+	// body('symptoms').isArray().notEmpty(),
+	body('symptoms').custom((symptoms) => {
+		if (!Array.isArray(symptoms) || symptoms.length === 0) {
+			throw new Error('At least one symptom is required')
+		}
+		return true
+	}),
+	body('symptoms.*.id').isString(),
+	body('symptoms.*.severity').isInt({ min: 1, max: 10 }),
 	body('symptoms.*.startDate').isISO8601(), // YYYY-MM-DD
 	body('symptoms.*.endDate').isISO8601().optional(), // YYYY-MM-DD
 	body('symptoms.*.description').isString().optional(),
 	body('location.city').isString(),
-	body('location.state').isString(),
-	body('location.zipCode').isString(),
-	body('location.country').isString(),
+	body('location.state').isString().optional(),
+	body('location.countryCode').isString(),
 	handleInputErrors,
-
-	(req, res) => {
-		// Implement the handler
-		res.json({ message: 'Not implemented' })
-	}
+	createUserSymptomLog
 )
 
 export default router

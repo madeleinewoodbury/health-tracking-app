@@ -137,3 +137,4 @@ const requireRole = (roles) => (req, res, next) => {
 export const isAdminOrProvider = requireRole(['ADMIN', 'PROVIDER'])
 export const isAdmin = requireRole(['ADMIN'])
 export const isProvider = requireRole(['PROVIDER'])
+export const isUser = requireRole(['USER'])

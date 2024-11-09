@@ -12,10 +12,12 @@ import {
 
 const router = Router()
 
-router.get('/country', getCountries)
-
-router.get('/country/:id', getCountry)
-
+/*
+ * POST /country
+ * Access: Admin
+ * Body: { name: string, alpha2: string, active?: boolean }
+ * Description: Create a new country with the given name, alpha2 code, and optional active status
+ */
 router.post(
 	'/country',
 	isAdmin,
@@ -26,6 +28,12 @@ router.post(
 	createCountry
 )
 
+/*
+ * PUT /country/:id
+ * Access: Admin
+ * Body: { name?: string, alpha2?: string, active?: boolean }
+ * Description: Update the country with the given id with the given name, alpha2 code, and active status
+ */
 router.put(
 	'/country/:id',
 	isAdmin,
@@ -40,6 +48,20 @@ router.put(
 	handleInputErrors,
 	updateCountry
 )
+
+/*
+ * GET /country
+ * Access: Admin, Provider, User
+ * Description: Get all countries
+ */
+router.get('/country', getCountries)
+
+/*
+ * GET /country/:id
+ * Access: Admin, Provider, User
+ * Description: Get a country by its id
+ */
+router.get('/country/:id', getCountry)
 
 router.delete('/country/:id', isAdmin, deleteCountry)
 

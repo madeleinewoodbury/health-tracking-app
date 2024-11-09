@@ -81,14 +81,13 @@ model UserSymptomEntry {
 }
 
 model Location {
-  id         String  @id @default(uuid())
-  city       String  @db.VarChar(100)
-  state      String? @db.VarChar(100)
-  postalCode String? @db.VarChar(20)
-  countryId  String
+  id        String  @id @default(uuid())
+  city      String  @db.VarChar(100)
+  state     String? @db.VarChar(100)
+  countryId String
 
-  latitude  Float?
-  longitude Float?
+  latitude  Float
+  longitude Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,6 +96,9 @@ model Location {
   symptomLogs     UserSymptomLog[]
   providerProfile ProviderProfile[]
   activityLog     ActivityLog[]
+
+  @@unique([city, state, countryId])
+  @@unique([latitude, longitude])
 }
 
 model Country {
