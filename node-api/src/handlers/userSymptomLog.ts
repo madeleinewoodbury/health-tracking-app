@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../db'
 import { findOrUpdateLocation } from '../modules/geocoding'
-import { GeocodingError } from '../modules/errors'
 
 interface SymptomEntry {
 	id: string

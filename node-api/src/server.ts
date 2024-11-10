@@ -5,6 +5,7 @@ import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
 import userSymptomLogRouter from './routes/userSymptomLog'
 import countryRouter from './routes/country'
+import providerRouter from './routes/provider'
 
 const app = express()
 
@@ -19,6 +20,13 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRouter)
-app.use('/api', protect, symptomRouter, userSymptomLogRouter, countryRouter)
+app.use(
+	'/api',
+	protect,
+	symptomRouter,
+	userSymptomLogRouter,
+	countryRouter,
+	providerRouter
+)
 
 export default app
