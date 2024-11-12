@@ -31,8 +31,6 @@ export const createProvider = async (req, res) => {
 			// Find or create location
 			const location = await findOrUpdateLocation(tx, city, country, state)
 
-			console.log(req.body)
-
 			// Create provider profile
 			const provider = await tx.providerProfile.create({
 				data: {

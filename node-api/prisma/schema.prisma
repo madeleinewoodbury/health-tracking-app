@@ -39,9 +39,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  country         Country           @relation(fields: [nationality], references: [id])
+  country         Country          @relation(fields: [nationality], references: [id])
   symptomLogs     UserSymptomLog[]
-  providerProfile ProviderProfile[]
+  providerProfile ProviderProfile?
   activityLog     ActivityLog[]
 }
 
@@ -119,7 +119,7 @@ model Country {
 
 model ProviderProfile {
   id         String  @id @default(uuid())
-  providerId String
+  providerId String  @unique
   firstName  String  @db.VarChar(50)
   lastName   String  @db.VarChar(50)
   specialty  String  @db.VarChar(50)
