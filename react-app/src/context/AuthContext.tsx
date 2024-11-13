@@ -1,12 +1,15 @@
 import { createContext, useState } from 'react'
-import { AuthContextType, User } from '../types/auth'
+import { AuthContextType, RegisterFormData, User } from '../types/auth'
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | null>(null)
 
-export const AuthProvider = ({ children }) => {
+import { ReactNode } from 'react'
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<User | null>(null)
+	const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-	const register = async (formData) => {
+	const register = async (formData: RegisterFormData) => {
 		// Register user
 		try {
 			const response = await fetch('/server/auth/register', {
@@ -24,6 +27,9 @@ export const AuthProvider = ({ children }) => {
 			}
 
 			setUser(data.user)
+			localStorage.setItem('token', data.token)
+			setIsAuthenticated(true)
+			alert('User registered successfully')
 		} catch (error) {
 			console.error(error)
 		}
@@ -33,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 		<AuthContext.Provider
 			value={{
 				user,
+				isAuthenticated,
 				register,
 			}}>
 			{children}

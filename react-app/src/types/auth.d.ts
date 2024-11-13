@@ -1,6 +1,7 @@
 interface AuthContextType {
 	register: (formData: RegisterFormData) => void
 	user: User | null
+	isAuthenticated: boolean
 }
 
 export interface User {
@@ -35,7 +36,7 @@ interface RegisterFormData {
 	username: string
 	email: string
 	password: string
-	passwordConfirmation: string
+	// passwordConfirmation: string
 	age: number
 	gender: 'MALE' | 'FEMALE' | 'OTHER'
 	nationality: string
