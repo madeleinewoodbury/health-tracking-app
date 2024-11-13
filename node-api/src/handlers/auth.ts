@@ -38,13 +38,26 @@ export const createUser = async (req, res) => {
 					},
 				},
 			},
+			select: {
+				username: true,
+				email: true,
+				age: true,
+				gender: true,
+				role: true,
+				country: {
+					select: {
+						name: true,
+						alpha2: true,
+					},
+				},
+			},
 		})
 
 		// Create a JWT token
 		const token = createJWT(user)
 
 		// Send the token to the user
-		res.json({ token })
+		res.json({ token: token, user: user })
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({ message: 'Internal Server Error' })
