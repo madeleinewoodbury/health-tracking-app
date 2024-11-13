@@ -1,5 +1,12 @@
+import { AuthProvider } from './context/AuthContext'
+import { RegisterForm } from './components/RegisterForm'
+
 const App = () => {
-	return <h1>The Health Tracker App</h1>
+	return (
+		<AuthProvider>
+			<RegisterForm />
+		</AuthProvider>
+	)
 }
 
 export default App
