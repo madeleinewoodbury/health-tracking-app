@@ -21,14 +21,8 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRouter)
-app.use(
-	'/api',
-	protect,
-	symptomRouter,
-	userSymptomLogRouter,
-	countryRouter,
-	providerRouter
-)
+app.use('/api', countryRouter)
+app.use('/api', protect, symptomRouter, userSymptomLogRouter, providerRouter)
 app.use('/api/report', isAdminOrProvider, reportRouter)
 
 export default app

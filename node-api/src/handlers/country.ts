@@ -61,7 +61,17 @@ export const getCountries = async (req, res) => {
 			},
 		}
 
-		const countries = await prisma.country.findMany(options)
+		const countries = await prisma.country.findMany({
+			...options,
+			select: {
+				id: true,
+				name: true,
+				alpha2: true,
+			},
+			where: {
+				active: true,
+			},
+		})
 
 		res.json({ count: countries.length, data: countries })
 	} catch (error) {
