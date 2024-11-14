@@ -1,9 +1,10 @@
-interface AuthContextType {
+export interface AuthContextType {
 	register: (formData: RegisterFormData) => void
+	login: (formData: LoginFormData) => void
+	logout: () => void
 	user: User | null
 	isAuthenticated: boolean
 }
-
 export interface User {
 	username: string
 	email: string
@@ -18,26 +19,29 @@ export interface User {
 	updatedAt: Date
 }
 
-export interface RegisterCredentials {
-	username: string
-	email: string
-	password: string
-	age: number
-	gender: 'MALE' | 'FEMALE' | 'OTHER'
-	nationality: string
-}
+// export interface RegisterCredentials {
+// 	username: string
+// 	email: string
+// 	password: string
+// 	age: number
+// 	gender: 'MALE' | 'FEMALE' | 'OTHER'
+// 	nationality: string
+// }
 
 export interface AuthResponse {
 	token: string
 	user: User
 }
-
-interface RegisterFormData {
+export interface RegisterFormData {
 	username: string
 	email: string
 	password: string
-	// passwordConfirmation: string
 	age: number
 	gender: 'MALE' | 'FEMALE' | 'OTHER'
 	nationality: string
+}
+
+export interface LoginFormData {
+	identifier: string
+	password: string
 }

@@ -1,5 +1,10 @@
 import { createContext, useState } from 'react'
-import { AuthContextType, RegisterFormData, User } from '../types/auth'
+import {
+	AuthContextType,
+	RegisterFormData,
+	LoginFormData,
+	User,
+} from '../types/auth'
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
@@ -29,10 +34,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			setUser(data.user)
 			localStorage.setItem('token', data.token)
 			setIsAuthenticated(true)
-			alert('User registered successfully')
 		} catch (error) {
 			console.error(error)
 		}
+	}
+
+	const login = async (formData: LoginFormData) => {
+		// Login user
+		try {
+			const response = await fetch('/server/auth/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			})
+
+			const data = await response.json()
+
+			if (!response.ok) {
+				throw new Error(data.message)
+			}
+
+			setUser(data.user)
+			localStorage.setItem('token', data.token)
+			setIsAuthenticated(true)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const logout = () => {
+		// Logout user
+		setUser(null)
+		localStorage.removeItem('token')
+		setIsAuthenticated(false)
 	}
 
 	return (
@@ -41,6 +77,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				user,
 				isAuthenticated,
 				register,
+				login,
+				logout,
 			}}>
 			{children}
 		</AuthContext.Provider>
