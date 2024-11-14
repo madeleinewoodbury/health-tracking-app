@@ -79,6 +79,20 @@ export const signIn = async (req, res) => {
 			where: {
 				OR: [{ username: req.body.identifier }, { email: req.body.identifier }],
 			},
+			select: {
+				username: true,
+				password: true,
+				email: true,
+				age: true,
+				gender: true,
+				role: true,
+				country: {
+					select: {
+						name: true,
+						alpha2: true,
+					},
+				},
+			},
 		})
 
 		// Check if the user exists
@@ -97,8 +111,11 @@ export const signIn = async (req, res) => {
 		// Create a JWT token
 		const token = createJWT(user)
 
+		// Omit the password from the user data
+		const { password, ...userData } = user
+
 		// Send the token to the user
-		res.json({ token })
+		res.json({ token: token, user: userData })
 	} catch (error) {
 		console.error(error)
 		res.status(401).json({ message: error.message })
