@@ -80,6 +80,7 @@ export const signIn = async (req, res) => {
 				OR: [{ username: req.body.identifier }, { email: req.body.identifier }],
 			},
 			select: {
+				id: true,
 				username: true,
 				password: true,
 				email: true,
@@ -112,7 +113,7 @@ export const signIn = async (req, res) => {
 		const token = createJWT(user)
 
 		// Omit the password from the user data
-		const { password, ...userData } = user
+		const { id, password, ...userData } = user
 
 		// Send the token to the user
 		res.json({ token: token, user: userData })

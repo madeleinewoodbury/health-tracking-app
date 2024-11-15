@@ -127,6 +127,7 @@ export const getUserSymptomLogs = async (req, res) => {
 						description: true,
 						symptom: {
 							select: {
+								id: true,
 								name: true,
 							},
 						},

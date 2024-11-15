@@ -1,9 +1,7 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, ReactNode } from 'react'
 import { CountryContextType, Country } from '../types/country'
 
 const CountryContext = createContext<CountryContextType | null>(null)
-
-import { ReactNode } from 'react'
 
 export const CountryProvider = ({ children }: { children: ReactNode }) => {
 	const [countries, setCountries] = useState<Country[]>([])

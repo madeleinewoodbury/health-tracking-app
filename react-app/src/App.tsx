@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { CountryProvider } from './context/CountryContext'
+import { SymptomLogProvider } from './context/SymptomLogContext'
 import MainLayout from './layout/MainLayout'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -25,7 +26,9 @@ const App = () => {
 	return (
 		<AuthProvider>
 			<CountryProvider>
-				<RouterProvider router={router} />
+				<SymptomLogProvider>
+					<RouterProvider router={router} />
+				</SymptomLogProvider>
 			</CountryProvider>
 		</AuthProvider>
 	)
