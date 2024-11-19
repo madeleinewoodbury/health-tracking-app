@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import { protect, isAdminOrProvider } from './modules/auth'
+import { logger } from './modules/middleware'
 import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
 import userSymptomLogRouter from './routes/userSymptomLog'
@@ -22,7 +23,14 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/auth', authRouter)
 app.use('/api', countryRouter)
-app.use('/api', protect, symptomRouter, userSymptomLogRouter, providerRouter)
-app.use('/api/report', isAdminOrProvider, reportRouter)
+app.use(
+	'/api',
+	protect,
+	logger,
+	symptomRouter,
+	userSymptomLogRouter,
+	providerRouter
+)
+app.use('/api/report', isAdminOrProvider, logger, reportRouter)
 
 export default app
