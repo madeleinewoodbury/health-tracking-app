@@ -160,6 +160,7 @@ export const getUserSymptomLogById = async (req, res) => {
 			select: {
 				id: true,
 				recordedAt: true,
+				updatedAt: true,
 				location: {
 					select: {
 						city: true,

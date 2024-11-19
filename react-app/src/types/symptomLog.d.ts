@@ -1,11 +1,16 @@
 interface SymptomLogContextType {
 	fetchSymptomLogs: () => void
+	fetchSymptomLog: (logId: string) => void
+	deleteSymptomLog: () => void
 	symptomLogs: SymptomLog[]
+	symptomLog: SymptomLog | null
+	loading: boolean
 }
 
 export interface SymptomLog {
 	id: string
 	recordedAt: Date
+	updatedAt: Date
 	location: {
 		city: string
 		state: string | null

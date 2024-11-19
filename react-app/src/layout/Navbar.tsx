@@ -15,7 +15,7 @@ const Navbar = () => {
 
 	return (
 		<nav className='py-8'>
-			<div className='flex justify-between text-white container mx-auto'>
+			<div className='flex justify-between text-white container mx-auto px-4'>
 				<NavLink to='/' className='text-xl font-bold'>
 					SymptomLogger
 				</NavLink>

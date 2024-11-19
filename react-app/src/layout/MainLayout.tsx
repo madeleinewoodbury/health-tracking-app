@@ -5,7 +5,7 @@ const MainLayout = () => {
 	return (
 		<>
 			<Navbar />
-			<main className='container mx-auto'>
+			<main className='container mx-auto p-4'>
 				<Outlet />
 			</main>
 		</>
