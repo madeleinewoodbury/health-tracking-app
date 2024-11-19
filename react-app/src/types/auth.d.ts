@@ -19,15 +19,6 @@ export interface User {
 	updatedAt: Date
 }
 
-// export interface RegisterCredentials {
-// 	username: string
-// 	email: string
-// 	password: string
-// 	age: number
-// 	gender: 'MALE' | 'FEMALE' | 'OTHER'
-// 	nationality: string
-// }
-
 export interface AuthResponse {
 	token: string
 	user: User

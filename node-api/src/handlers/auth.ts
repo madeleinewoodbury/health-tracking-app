@@ -122,3 +122,46 @@ export const signIn = async (req, res) => {
 		res.status(401).json({ message: error.message })
 	}
 }
+
+/**
+ * Retrieves the user information based on the user ID present in the request.
+ *
+ * @param req - The request object containing the user ID.
+ * @param res - The response object used to send back the user data or an error message.
+ *
+ * @returns A JSON response containing the user data if found, otherwise an error message.
+ */
+export const getUser = async (req, res) => {
+	try {
+		// Find the user in the database by username or email
+		const user = await prisma.user.findUnique({
+			where: {
+				id: req.user.id,
+			},
+			select: {
+				username: true,
+				email: true,
+				age: true,
+				role: true,
+				gender: true,
+				country: {
+					select: {
+						name: true,
+						alpha2: true,
+					},
+				},
+			},
+		})
+
+		// Check if the user exists
+		if (!user) {
+			throw new Error('User not found')
+		}
+
+		// Send the user data
+		res.json({ user: user })
+	} catch (error) {
+		console.error(error)
+		res.status(404).json({ message: error.message })
+	}
+}

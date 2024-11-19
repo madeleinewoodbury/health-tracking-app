@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
+import { protect } from '../modules/auth'
 import { handleInputErrors } from '../modules/middleware'
-import { createUser, signIn } from '../handlers/auth'
+import { createUser, signIn, getUser } from '../handlers/auth'
 
 const router = Router()
 
@@ -36,5 +37,12 @@ router.post(
 	handleInputErrors,
 	signIn
 )
+
+/*
+ * GET /auth/user
+ * Access: Private
+ * Description: Returns the user information.
+ */
+router.get('/user', protect, getUser)
 
 export default router
