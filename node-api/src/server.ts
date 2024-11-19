@@ -1,6 +1,6 @@
 import express from 'express'
 import morgan from 'morgan'
-import { protect, isAdminOrProvider } from './modules/auth'
+import { protect, isAdminOrProvider, isAdmin } from './modules/auth'
 import { logger } from './modules/middleware'
 import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
@@ -8,6 +8,7 @@ import userSymptomLogRouter from './routes/userSymptomLog'
 import countryRouter from './routes/country'
 import providerRouter from './routes/provider'
 import reportRouter from './routes/report'
+import adminRouter from './routes/admin'
 
 const app = express()
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/auth', authRouter)
+app.use('/admin', protect, isAdmin, adminRouter)
 app.use('/api', countryRouter)
 app.use(
 	'/api',
