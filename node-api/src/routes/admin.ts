@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { getActivty } from '../handlers/admin'
+import { getUserActivtyPerDay } from '../handlers/admin'
 
 const router = Router()
 
-router.get('/activity', getActivty)
+router.get('/activity', getUserActivtyPerDay)
 
 export default router

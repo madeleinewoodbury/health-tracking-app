@@ -35,6 +35,7 @@ export const handleInputErrors = (req, res, next) => {
  */
 export const logger = async (req, res, next) => {
 	try {
+		console.log('Logging user activity...')
 		const userId = req.user.id
 		const role = req.user.role
 		const ipAddress = req.ip
