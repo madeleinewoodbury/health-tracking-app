@@ -6,6 +6,7 @@ const SymptomLogContext = createContext<SymptomLogContextType | null>(null)
 export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 	const [symptomLogs, setSymptomLogs] = useState<SymptomLog[]>([])
 	const [symptomLog, setSymptomLog] = useState<SymptomLog | null>(null)
+	const [symptoms, setSymptoms] = useState([])
 	const [loading, setLoading] = useState(false)
 
 	const fetchSymptomLogs = async () => {
@@ -103,6 +104,11 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	const createSymptomLog = async (formData) => {
+		console.log(formData)
+		// TODO: Implement createSymptomLog
+	}
+
 	const deleteSymptomLog = async () => {
 		try {
 			setLoading(true)
@@ -134,14 +140,41 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	const fetchSymptoms = async () => {
+		try {
+			setLoading(true)
+
+			const token = localStorage.getItem('token')
+			const response = await fetch('/server/api/symptom', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			const data = await response.json()
+
+			if (!response.ok) {
+				throw new Error(data.message)
+			}
+
+			setSymptoms(data.data)
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	return (
 		<SymptomLogContext.Provider
 			value={{
 				fetchSymptomLogs,
 				fetchSymptomLog,
 				deleteSymptomLog,
+				fetchSymptoms,
+				createSymptomLog,
 				symptomLogs,
 				symptomLog,
+				symptoms,
 				loading,
 			}}>
 			{children}

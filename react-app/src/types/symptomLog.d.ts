@@ -2,6 +2,8 @@ interface SymptomLogContextType {
 	fetchSymptomLogs: () => void
 	fetchSymptomLog: (logId: string) => void
 	deleteSymptomLog: () => void
+	fetchSymptoms: () => void
+	symptoms: Symptom[]
 	symptomLogs: SymptomLog[]
 	symptomLog: SymptomLog | null
 	loading: boolean
