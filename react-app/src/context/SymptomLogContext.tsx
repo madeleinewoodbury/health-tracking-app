@@ -209,6 +209,12 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	const resetState = () => {
+		setSymptomLogs([])
+		setSymptomLog(null)
+		setSymptoms([])
+	}
+
 	return (
 		<SymptomLogContext.Provider
 			value={{
@@ -217,6 +223,7 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 				deleteSymptomLog,
 				fetchSymptoms,
 				createSymptomLog,
+				resetState,
 				symptomLogs,
 				symptomLog,
 				symptoms,

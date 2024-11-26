@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../hooks/auth'
+import { useSymptomLog } from '../hooks/symptomLog'
 
 const Navbar = () => {
 	const { isAuthenticated, logout } = useAuth()
+	const { resetState } = useSymptomLog()
 	const linkClass = ({ isActive }: { isActive: boolean }) =>
 		isActive
 			? 'border-b-2 border-blue-400 text-blue-400'
@@ -10,6 +12,7 @@ const Navbar = () => {
 
 	const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
+		resetState()
 		logout()
 	}
 

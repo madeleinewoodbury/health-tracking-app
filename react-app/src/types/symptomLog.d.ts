@@ -4,6 +4,7 @@ interface SymptomLogContextType {
 	deleteSymptomLog: () => void
 	fetchSymptoms: () => void
 	createSymptomLog: (formData: SymptomLogFormData) => Promise<boolean>
+	resetState: () => void
 	symptoms: Symptom[]
 	symptomLogs: SymptomLog[]
 	symptomLog: SymptomLog | null
