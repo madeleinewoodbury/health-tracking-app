@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCountry } from '../hooks/country'
 import { useSymptomLog } from '../hooks/symptomLog'
+import { useAuth } from '../hooks/auth'
 import FormInput from '../components/forms/FormInput'
 import FormSelect from '../components/forms/FormSelect'
 import Button from '../layout/Button'
 import SymptomForm from '../components/forms/SymptomForm'
 
 const AddLogPage = () => {
+	const navigate = useNavigate()
 	const { countries, fetchCountries } = useCountry()
 	const { symptoms, fetchSymptoms, createSymptomLog } = useSymptomLog()
+	const { user } = useAuth()
 	const [formData, setFormData] = useState({
 		city: '',
 		state: '',
-		country: '',
+		country: user ? user.country.alpha2 : '',
 		symptoms: [],
 	})
 	const [showSymptomForm, setShowSymptomForm] = useState(false)
@@ -24,14 +28,20 @@ const AddLogPage = () => {
 		// eslint-disable-next-line
 	}, [])
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault()
 		// Submit form data to the server
-		createSymptomLog(formData)
+		if (formData.symptoms.length === 0) {
+			alert('At least one symptom is required')
+			return
+		}
+		const success = await createSymptomLog(formData)
+		if (success) {
+			navigate('/')
+		}
 	}
 
 	const handleAddSymptom = (symptom) => {
-		console.log(`Adding symptom: ${symptom}`)
 		setFormData({ ...formData, symptoms: [...formData.symptoms, symptom] })
 		setShowSymptomForm(false)
 	}

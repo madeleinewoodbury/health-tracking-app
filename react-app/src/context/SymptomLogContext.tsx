@@ -105,8 +105,53 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	const createSymptomLog = async (formData) => {
-		console.log(formData)
-		// TODO: Implement createSymptomLog
+		try {
+			setLoading(true)
+			const token = localStorage.getItem('token')
+			if (!token) {
+				throw new Error('User not authenticated')
+			}
+			const body = {
+				location: {
+					city: formData.city,
+					...(formData.state && { state: formData.state }),
+					countryCode: formData.country,
+				},
+				symptoms: formData.symptoms.map((symptom) => ({
+					id: symptom.id,
+					...(symptom.severity && { severity: symptom.severity }),
+					...(symptom.symptomStart && { symptomStart: symptom.symptomStart }),
+					...(symptom.symptomEnd && { symptomEnd: symptom.symptomEnd }),
+					...(symptom.description && { description: symptom.description }),
+				})),
+			}
+
+			const response = await fetch('/server/api/user-symptom-log', {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(body),
+			})
+
+			const data = await response.json()
+
+			if (!response.ok) {
+				// TODO: Display error message
+				throw new Error('Failed to create symptom log')
+			}
+
+			// Update the symptom logs
+			fetchSymptomLogs()
+
+			return true
+		} catch (error) {
+			console.error(error)
+			return false
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	const deleteSymptomLog = async () => {

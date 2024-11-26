@@ -11,9 +11,9 @@ export interface User {
 	role: 'USER' | 'PROVIDER' | 'ADMIN'
 	age: number
 	gender: 'MALE' | 'FEMALE' | 'OTHER'
-	nationality: {
+	country: {
 		name: string
-		code: string
+		alpha2: string
 	}
 	createdAt: Date
 	updatedAt: Date
