@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 import {
 	AuthContextType,
 	RegisterFormData,
@@ -60,12 +61,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			const data = await response.json()
 
 			if (!response.ok) {
+				toast.error('Registration failed!')
 				throw new Error(data.message)
 			}
 
 			setUser(data.user)
 			localStorage.setItem('token', data.token)
 			setIsAuthenticated(true)
+			toast.success('Registration successful!')
 		} catch (error) {
 			console.error(error)
 		}
@@ -85,12 +88,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			const data = await response.json()
 
 			if (!response.ok) {
+				toast.error(data.message)
 				throw new Error(data.message)
 			}
 
 			setUser(data.user)
 			localStorage.setItem('token', data.token)
 			setIsAuthenticated(true)
+			toast.success('Login successful!')
 		} catch (error) {
 			console.error(error)
 		}

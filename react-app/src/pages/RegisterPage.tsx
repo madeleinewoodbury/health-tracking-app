@@ -44,6 +44,8 @@ const RegisterPage = () => {
 			return
 		}
 
+		console.log(formData)
+
 		register(formData)
 	}
 
@@ -64,23 +66,27 @@ const RegisterPage = () => {
 					label='Username'
 					type='text'
 					value={formData.username}
+					required={true}
 					onChange={handleChange('username')}
 				/>
 				<FormInput
 					label='Email'
 					type='email'
+					required={true}
 					value={formData.email}
 					onChange={handleChange('email')}
 				/>
 				<FormInput
 					label='Password'
 					type='password'
+					required={true}
 					value={formData.password}
 					onChange={handleChange('password')}
 				/>
 				<FormInput
 					label='Confirm Password'
 					type='password'
+					required={true}
 					value={passwordConfirmation}
 					onChange={(e) => setPasswordConfirmation(e.target.value)}
 				/>
