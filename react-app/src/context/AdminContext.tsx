@@ -75,7 +75,7 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 			}
 
 			const data = await response.json()
-			setSymptomsByLocation(data)
+			setSymptomsByLocation(data.symptoms)
 		} catch (error) {
 			console.error('Error fetching symptoms by location:', error)
 		} finally {

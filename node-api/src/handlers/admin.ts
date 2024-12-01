@@ -62,13 +62,6 @@ export const getSymptomCountsByLocation = async (req, res) => {
 			},
 			select: {
 				id: true,
-				city: true,
-				state: true,
-				country: {
-					select: {
-						name: true,
-					},
-				},
 			},
 		})
 
@@ -108,9 +101,6 @@ export const getSymptomCountsByLocation = async (req, res) => {
 
 		// Construct the response
 		const response = {
-			country: location.country.name,
-			city: location.city,
-			state: location.state || null,
 			symptoms: symptomDetails,
 		}
 

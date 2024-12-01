@@ -8,20 +8,13 @@ export interface AdminContextType {
 	fetchSymptomPatterns: (symptom: string) => void
 	loading: boolean
 	userActivity: UserActvity[]
-	symptomsByLocation: SymptomByLocation[]
+	symptomsByLocation: Symptom[]
 	symptomPatterns: Symptom[]
 }
 
 export interface UserActvity {
 	date: string
 	uniqueUsers: number
-}
-
-export interface SymptomByLocation {
-	country: string
-	city: string
-	state?: string
-	symptoms: Symptom[]
 }
 
 export interface Symptom {
