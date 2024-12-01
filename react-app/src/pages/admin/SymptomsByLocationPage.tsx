@@ -72,7 +72,7 @@ const SymptomsByLocationPage = () => {
 			</form>
 			{loading && <p className='text-white text-center'>Loading...</p>}
 			{symptomsByLocation && (
-				<div className='mt-6'>
+				<div className='mt-6 flex justify-center'>
 					<BarChart data={symptomsByLocation} />
 				</div>
 			)}
