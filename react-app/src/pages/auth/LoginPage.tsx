@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../hooks/auth'
-import { LoginFormData } from '../types/auth'
-import FormInput from '../components/forms/FormInput'
-import Button from '../layout/Button'
+import { useAuth } from '../../hooks/auth'
+import { LoginFormData } from '../../types/auth'
+import FormInput from '../../components/forms/FormInput'
+import Button from '../../layout/Button'
 
 const LoginPage = () => {
 	const { login, isAuthenticated } = useAuth()

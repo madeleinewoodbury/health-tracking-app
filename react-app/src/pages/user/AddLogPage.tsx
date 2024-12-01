@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useCountry } from '../hooks/country'
-import { useSymptomLog } from '../hooks/symptomLog'
-import { useAuth } from '../hooks/auth'
-import FormInput from '../components/forms/FormInput'
-import FormSelect from '../components/forms/FormSelect'
-import Button from '../layout/Button'
-import SymptomForm from '../components/forms/SymptomForm'
+import { useCountry } from '../../hooks/country'
+import { useSymptomLog } from '../../hooks/symptomLog'
+import { useAuth } from '../../hooks/auth'
+import FormInput from '../../components/forms/FormInput'
+import FormSelect from '../../components/forms/FormSelect'
+import Button from '../../layout/Button'
+import SymptomForm from '../../components/forms/SymptomForm'
 
 const AddLogPage = () => {
 	const navigate = useNavigate()

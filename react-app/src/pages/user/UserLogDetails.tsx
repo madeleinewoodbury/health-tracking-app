@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useSymptomLog } from '../hooks/symptomLog'
-import Button from '../layout/Button'
+import { useSymptomLog } from '../../hooks/symptomLog'
+import Button from '../../layout/Button'
 
 const UserLogDetails = () => {
 	const { fetchSymptomLog, deleteSymptomLog, symptomLog, loading } =

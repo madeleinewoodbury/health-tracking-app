@@ -1,24 +1,29 @@
 import prisma from '../db'
 
 /**
- * Retrieves the number of unique users' activity per day from the database.
+ * Retrieves the number of unique users' activity per day from the database within a specified date range.
  *
- * @param req - The request object.
+ * @param req - The request object containing the query with `startDate` and `endDate`.
  * @param res - The response object.
  * @returns A JSON response containing an array of objects with the date and the count of unique users for each day.
  */
 export const getUserActivtyPerDay = async (req, res) => {
 	try {
-		// Fetch activity logs from the database and group them by date and count the number of unique users
+		// Parse the start and end dates from the query
+		const startDate = new Date(req.query.startDate)
+		const endDate = new Date(req.query.endDate)
+
+		// Fetch activity logs from the database within the specified date range
 		const result: { date: string; uniqueUsers: bigint }[] =
 			await prisma.$queryRaw`
-			SELECT 
-				DATE("recordedAt") as date, 
-				COUNT(DISTINCT "userId") as "uniqueUsers"
-			FROM "ActivityLog"
-			GROUP BY DATE("recordedAt")
-			ORDER BY DATE("recordedAt")
-		`
+      SELECT 
+        DATE("recordedAt") as date, 
+        COUNT(DISTINCT "userId") as "uniqueUsers"
+      FROM "ActivityLog"
+      WHERE "recordedAt" BETWEEN ${startDate} AND ${endDate}
+      GROUP BY DATE("recordedAt")
+      ORDER BY DATE("recordedAt")
+    `
 
 		// Format the date and convert the uniqueUsers count to a number
 		const data = result.map((row) => ({

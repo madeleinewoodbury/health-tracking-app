@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../hooks/auth'
-import { useCountry } from '../hooks/country'
-import { RegisterFormData } from '../types/auth'
-import FormInput from '../components/forms/FormInput'
-import FormSelect from '../components/forms/FormSelect'
-import Button from '../layout/Button'
+import { useAuth } from '../../hooks/auth'
+import { useCountry } from '../../hooks/country'
+import { RegisterFormData } from '../../types/auth'
+import FormInput from '../../components/forms/FormInput'
+import FormSelect from '../../components/forms/FormSelect'
+import Button from '../../layout/Button'
 
 const RegisterPage = () => {
 	const { register, isAuthenticated } = useAuth()

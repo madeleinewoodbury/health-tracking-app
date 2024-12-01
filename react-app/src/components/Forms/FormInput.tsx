@@ -1,5 +1,5 @@
 interface FormInputProps {
-	label: string
+	label?: string
 	type: string
 	value: string
 	name?: string
@@ -11,7 +11,7 @@ interface FormInputProps {
 }
 
 const FormInput: React.FC<FormInputProps> = ({
-	label,
+	label = '',
 	type,
 	value,
 	placeholder = '',

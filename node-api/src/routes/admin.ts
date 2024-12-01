@@ -14,7 +14,12 @@ const router = Router()
  * Access: Admin
  * Description: Returns the number of unique user per day.
  */
-router.get('/activity', getUserActivtyPerDay)
+router.get(
+	'/activity',
+	[query('startDate').isISO8601(), query('endDate').isISO8601()],
+	handleInputErrors,
+	getUserActivtyPerDay
+)
 
 /*
  * GET /admin/geographic

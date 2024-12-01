@@ -1,38 +1,113 @@
 import { createContext, useState, ReactNode } from 'react'
-import { AdminContextType, GeographicCluster } from '../types/admin'
+import {
+	AdminContextType,
+	UserActvity,
+	SymptomByLocation,
+	Symptom,
+} from '../types/admin'
 
 const AdminContext = createContext<AdminContextType | null>(null)
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
 	const [loading, setLoading] = useState(false)
-	const [geographicClusters, setGeographicClusters] = useState<
-		GeographicCluster[]
+	const [userActivity, setUserActivity] = useState<UserActvity[]>([])
+	const [symptomsByLocation, setSymptomsByLocation] = useState<
+		SymptomByLocation[]
 	>([])
+	const [symptomPatterns, setSymptomPatterns] = useState<Symptom[]>([])
 
-	const fetchGeographicClusters = async () => {
+	const fetchUserActivity = async (startDate: string, endDate: string) => {
 		try {
-			console.log('Fetching geographic clusters...')
 			setLoading(true)
 			const token = localStorage.getItem('token')
+
 			if (!token) {
-				throw new Error('User not authenticated')
+				throw new Error('No token found')
 			}
 
-			const response = await fetch('/server/admin/geographic', {
+			const params = new URLSearchParams({ startDate, endDate })
+
+			const response = await fetch(`/server/admin/activity?${params}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			const data = await response.json()
 
 			if (!response.ok) {
-				throw new Error(data.message)
+				throw new Error('Failed to fetch user activity')
 			}
 
-			console.log(data)
-			setGeographicClusters(data)
+			const data = await response.json()
+			setUserActivity(data)
 		} catch (error) {
-			console.error(error)
+			console.error('Error fetching user activity:', error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const fetchSymptomsByLocation = async (
+		country: string,
+		city: string,
+		state: string | null = null
+	) => {
+		try {
+			setLoading(true)
+			const token = localStorage.getItem('token')
+
+			if (!token) {
+				throw new Error('No token found')
+			}
+
+			const params = new URLSearchParams({ country, city })
+			if (state) {
+				params.append('state', state)
+			}
+
+			const response = await fetch(`/server/admin/geographic?${params}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to fetch symptoms by location')
+			}
+
+			const data = await response.json()
+			setSymptomsByLocation(data)
+		} catch (error) {
+			console.error('Error fetching symptoms by location:', error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const fetchSymptomPatterns = async (symptom: string) => {
+		try {
+			setLoading(true)
+
+			const token = localStorage.getItem('token')
+			if (!token) {
+				throw new Error('No token found')
+			}
+
+			const params = new URLSearchParams({ symptom })
+
+			const response = await fetch(`/server/admin/symptoms?${params}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to fetch symptom patterns')
+			}
+
+			const data = await response.json()
+			setSymptomPatterns(data)
+		} catch (error) {
+			console.error('Error fetching symptom patterns:', error)
 		} finally {
 			setLoading(false)
 		}
@@ -41,9 +116,13 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<AdminContext.Provider
 			value={{
-				fetchGeographicClusters,
+				fetchUserActivity,
+				fetchSymptomsByLocation,
+				fetchSymptomPatterns,
 				loading,
-				geographicClusters,
+				userActivity,
+				symptomsByLocation,
+				symptomPatterns,
 			}}>
 			{children}
 		</AdminContext.Provider>
