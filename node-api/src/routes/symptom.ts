@@ -12,11 +12,37 @@ import {
 
 const router = Router()
 
-/*
- * POST /symptom
- * Access: Admin, Provider
- * Body: { name: string, description?: string }
- * Description: Create a new symptom with the given name and optional description
+/**
+ * @swagger
+ * tags:
+ *   name: Symptom
+ *   description: Symptom management endpoints
+ */
+
+/**
+ * @swagger
+ * /symptom:
+ *   post:
+ *     summary: Create a new symptom
+ *     tags: [Symptom]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Symptom created successfully
+ *       400:
+ *         description: Bad request
  */
 router.post(
 	'/symptom',
@@ -27,11 +53,39 @@ router.post(
 	createSymptom
 )
 
-/*
- * PUT /symptom/:id
- * Access: Admin, Provider
- * Body: { name?: string, description?: string }
- * Description: Update the symptom with the given id with the given name and description
+/**
+ * @swagger
+ * /symptom/{id}:
+ *   put:
+ *     summary: Update an existing symptom
+ *     tags: [Symptom]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Symptom updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Symptom not found
  */
 router.put(
 	'/symptom/:id',
@@ -42,24 +96,87 @@ router.put(
 	updateSymptom
 )
 
-/*
- * GET /symptom
- * Access: Admin, Provider, User
- * Description: Get all symptoms
+/**
+ * @swagger
+ * /symptom:
+ *   get:
+ *     summary: Get all symptoms
+ *     tags: [Symptom]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of symptoms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   description:
+ *                     type: string
  */
 router.get('/symptom', getSymptoms)
 
-/*
- * GET /symptom/:id
- * Access: Admin, Provider, User
- * Description: Get a symptom by its id
+/**
+ * @swagger
+ * /symptom/{id}:
+ *   get:
+ *     summary: Get a symptom by ID
+ *     tags: [Symptom]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom ID
+ *     responses:
+ *       200:
+ *         description: Symptom details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *       404:
+ *         description: Symptom not found
  */
 router.get('/symptom/:id', getSymptomById)
 
-/*
- * DELETE /symptom/:id
- * Access: Admin, Provider
- * Description: Delete a symptom by its id
+/**
+ * @swagger
+ * /symptom/{id}:
+ *   delete:
+ *     summary: Delete a symptom by ID
+ *     tags: [Symptom]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom ID
+ *     responses:
+ *       200:
+ *         description: Symptom deleted successfully
+ *       404:
+ *         description: Symptom not found
  */
 router.delete('/symptom/:id', isAdminOrProvider, deleteSymptom)
 

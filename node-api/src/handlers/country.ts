@@ -15,7 +15,7 @@ export const createCountry = async (req, res) => {
 			data: req.body,
 		})
 
-		res.json({ data: country })
+		res.status(201).json({ data: country })
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
@@ -35,7 +35,7 @@ export const updateCountry = async (req, res) => {
 			data: req.body,
 		})
 
-		res.json({ data: country })
+		res.status(200).json({ data: country })
 	} catch (error) {
 		console.log(error.message)
 		res.status(404).json({ error: 'Country not found' })

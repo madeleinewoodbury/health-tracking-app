@@ -1,4 +1,6 @@
+import { Express } from 'express'
 import { validationResult } from 'express-validator'
+import path from 'path'
 import prisma from '../db'
 
 /**
@@ -59,4 +61,16 @@ export const logger = async (req, res, next) => {
 	} catch (error) {
 		console.log(`Error in activity log middleware: ${error}`)
 	}
+}
+
+/**
+ * Sets up the ReDoc middleware for the provided Express application.
+ * This middleware serves the ReDoc documentation at the `/redoc` endpoint.
+ *
+ * @param app - The Express application instance.
+ */
+export const setupReDoc = (app: Express) => {
+	app.get('/redoc', (req, res) => {
+		res.sendFile(path.join(__dirname, '../../redoc.html'))
+	})
 }

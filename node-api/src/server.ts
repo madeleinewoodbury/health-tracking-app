@@ -1,7 +1,9 @@
 import express from 'express'
 import morgan from 'morgan'
+import path from 'path'
 import { protect, isAdminOrProvider, isAdmin } from './modules/auth'
-import { logger } from './modules/middleware'
+import { logger, setupReDoc } from './modules/middleware'
+import { setupSwagger } from './modules/swagger'
 import authRouter from './routes/auth'
 import symptomRouter from './routes/symptom'
 import userSymptomLogRouter from './routes/userSymptomLog'
@@ -21,6 +23,12 @@ app.get('/', (req, res) => {
 	res.send('API is running')
 })
 
+// Serve swagger.json for ReDoc
+app.use(
+	'/swagger.json',
+	express.static(path.resolve(__dirname, '../swagger.json'))
+)
+
 // Routes
 app.use('/auth', authRouter)
 app.use('/admin', protect, isAdmin, adminRouter)
@@ -34,5 +42,9 @@ app.use(
 	providerRouter
 )
 app.use('/api/report', isAdminOrProvider, logger, reportRouter)
+
+// Setup Swagger and ReDoc
+setupSwagger(app)
+setupReDoc(app)
 
 export default app

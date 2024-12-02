@@ -12,11 +12,61 @@ import {
 
 const router = Router()
 
-/*
- * POST /user-symptom-log
- * Access: User
- * Body:
- * Description: Log a symptom for the user
+/**
+ * @swagger
+ * tags:
+ *   name: UserSymptomLog
+ *   description: User symptom log management endpoints
+ */
+
+/**
+ * @swagger
+ * /user-symptom-log:
+ *   post:
+ *     summary: Log a symptom for the user
+ *     tags: [UserSymptomLog]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               symptoms:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     severity:
+ *                       type: integer
+ *                       minimum: 1
+ *                       maximum: 10
+ *                     symptomStart:
+ *                       type: string
+ *                       format: date
+ *                     symptomEnd:
+ *                       type: string
+ *                       format: date
+ *                     description:
+ *                       type: string
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   countryCode:
+ *                     type: string
+ *     responses:
+ *       201:
+ *         description: Symptom log created successfully
+ *       400:
+ *         description: Bad request
  */
 router.post(
 	'/user-symptom-log',
@@ -39,24 +89,172 @@ router.post(
 	createUserSymptomLog
 )
 
-/*
- * GET /user-symptom-log
- * Access: User
- * Description: Get all the symptoms logged by the user
+/**
+ * @swagger
+ * /user-symptom-log:
+ *   get:
+ *     summary: Get all the symptoms logged by the user
+ *     tags: [UserSymptomLog]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of user symptom logs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   symptoms:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         severity:
+ *                           type: integer
+ *                           minimum: 1
+ *                           maximum: 10
+ *                         symptomStart:
+ *                           type: string
+ *                           format: date
+ *                         symptomEnd:
+ *                           type: string
+ *                           format: date
+ *                         description:
+ *                           type: string
+ *                   location:
+ *                     type: object
+ *                     properties:
+ *                       city:
+ *                         type: string
+ *                       state:
+ *                         type: string
+ *                       countryCode:
+ *                         type: string
  */
 router.get('/user-symptom-log', isUser, getUserSymptomLogs)
 
-/*
- * GET /user-symptom-log/:id
- * Access: User
- * Description: Get a specific symptom logged by the user
+/**
+ * @swagger
+ * /user-symptom-log/{id}:
+ *   get:
+ *     summary: Get a specific symptom logged by the user
+ *     tags: [UserSymptomLog]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom log ID
+ *     responses:
+ *       200:
+ *         description: Symptom log details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 symptoms:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       severity:
+ *                         type: integer
+ *                         minimum: 1
+ *                         maximum: 10
+ *                       symptomStart:
+ *                         type: string
+ *                         format: date
+ *                       symptomEnd:
+ *                         type: string
+ *                         format: date
+ *                       description:
+ *                         type: string
+ *                 location:
+ *                   type: object
+ *                   properties:
+ *                     city:
+ *                       type: string
+ *                     state:
+ *                       type: string
+ *                     countryCode:
+ *                       type: string
+ *       404:
+ *         description: Symptom log not found
  */
 router.get('/user-symptom-log/:id', isUser, getUserSymptomLogById)
 
-/*
- * PUT /user-symptom-log/:logId
- * Access: User
- * Description: Update a specific symptom logged by the user
+/**
+ * @swagger
+ * /user-symptom-log/{logId}:
+ *   put:
+ *     summary: Update a specific symptom logged by the user
+ *     tags: [UserSymptomLog]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: logId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom log ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               symptoms:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     severity:
+ *                       type: integer
+ *                       minimum: 1
+ *                       maximum: 10
+ *                     symptomStart:
+ *                       type: string
+ *                       format: date
+ *                     symptomEnd:
+ *                       type: string
+ *                       format: date
+ *                     description:
+ *                       type: string
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   countryCode:
+ *                     type: string
+ *     responses:
+ *       200:
+ *         description: Symptom log updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Symptom log not found
  */
 router.put(
 	'/user-symptom-log/:logId',
@@ -83,10 +281,26 @@ router.put(
 	updateSymptomLog
 )
 
-/*
- * DELETE /user-symptom-log/:logId
- * Access: User
- * Description: Delete a specific symptom logged by the user
+/**
+ * @swagger
+ * /user-symptom-log/{logId}:
+ *   delete:
+ *     summary: Delete a specific symptom logged by the user
+ *     tags: [UserSymptomLog]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: logId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The symptom log ID
+ *     responses:
+ *       200:
+ *         description: Symptom log deleted successfully
+ *       404:
+ *         description: Symptom log not found
  */
 router.delete('/user-symptom-log/:logId', isUser, deleteUserSymptomLog)
 

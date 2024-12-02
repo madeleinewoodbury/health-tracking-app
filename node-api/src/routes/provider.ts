@@ -12,11 +12,50 @@ import {
 
 const router = Router()
 
-/*
- * POST /provider
- * Access: Provider
- * Body: { firstName: string, lastName: string, specialty: string, title?: string, location: { city: string, state?: string, countryCode: string } }
- * Description: Create a new provider with the given first name, last name, specialty, title, and location
+/**
+ * @swagger
+ * tags:
+ *   name: Provider
+ *   description: Provider management endpoints
+ */
+
+/**
+ * @swagger
+ * /provider:
+ *   post:
+ *     summary: Create a new provider
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               specialty:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   countryCode:
+ *                     type: string
+ *     responses:
+ *       201:
+ *         description: Provider created successfully
+ *       400:
+ *         description: Bad request
  */
 router.post(
 	'/provider',
@@ -32,25 +71,135 @@ router.post(
 	createProvider
 )
 
-/*
- * GET /provider
- * Access: Provider, User, Admin
- * Description: Get all providers
+/**
+ * @swagger
+ * /provider:
+ *   get:
+ *     summary: Get all providers
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of providers
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   firstName:
+ *                     type: string
+ *                   lastName:
+ *                     type: string
+ *                   specialty:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   location:
+ *                     type: object
+ *                     properties:
+ *                       city:
+ *                         type: string
+ *                       state:
+ *                         type: string
+ *                       countryCode:
+ *                         type: string
  */
 router.get('/provider', getProvider)
 
-/*
- * GET /provider/:id
- * Access: Provider, User, Admin
- * Description: Get the provider with the given id
+/**
+ * @swagger
+ * /provider/{id}:
+ *   get:
+ *     summary: Get a provider by ID
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The provider ID
+ *     responses:
+ *       200:
+ *         description: Provider details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 firstName:
+ *                   type: string
+ *                 lastName:
+ *                   type: string
+ *                 specialty:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *                 location:
+ *                   type: object
+ *                   properties:
+ *                     city:
+ *                       type: string
+ *                     state:
+ *                       type: string
+ *                     countryCode:
+ *                       type: string
+ *       404:
+ *         description: Provider not found
  */
 router.get('/provider/:id', getProviderById)
 
-/*
- * PUT /provider/:id
- * Access: Provider
- * Body: { specialization?: string, title?: string, location?: { city?: string, state?: string, countryCode: string } }
- * Description: Update the provider with the given id with the given specialization, title, and location
+/**
+ * @swagger
+ * /provider/{id}:
+ *   put:
+ *     summary: Update an existing provider
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The provider ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               specialization:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   countryCode:
+ *                     type: string
+ *     responses:
+ *       200:
+ *         description: Provider updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Provider not found
  */
 router.put(
 	'/provider/:id',
@@ -68,10 +217,26 @@ router.put(
 	updateProvider
 )
 
-/*
- * DELETE /provider/:id
- * Access: Provider
- * Description: Delete the provider with the given id
+/**
+ * @swagger
+ * /provider/{id}:
+ *   delete:
+ *     summary: Delete a provider by ID
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The provider ID
+ *     responses:
+ *       200:
+ *         description: Provider deleted successfully
+ *       404:
+ *         description: Provider not found
  */
 router.delete('/provider/:id', isProvider, deletedProvider)
 

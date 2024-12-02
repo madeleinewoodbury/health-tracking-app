@@ -6,11 +6,53 @@ import { createUser, signIn, getUser } from '../handlers/auth'
 
 const router = Router()
 
-/*
- * POST /auth/register
- * Access: Public
- * Body: { username, email, password, age, gender, nationality }
- * Description: Registers a new user in the database. Returns a JWT token.
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Authentication endpoints
+ */
+
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Registers a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 minLength: 8
+ *               age:
+ *                 type: integer
+ *               gender:
+ *                 type: string
+ *                 enum: [MALE, FEMALE, OTHER]
+ *               nationality:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successful registration
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: Bad request
  */
 router.post(
 	'/register',
@@ -24,11 +66,36 @@ router.post(
 	createUser
 )
 
-/*
- * POST /auth/login
- * Access: Public
- * Body: { identifier, password }
- * Description: Authenticates a user using their username or email and password. Returns a JWT token.
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Authenticates a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               identifier:
+ *                 type: string
+ *                 description: Can be either username or email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successful login
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
 	'/login',
@@ -38,10 +105,36 @@ router.post(
 	signIn
 )
 
-/*
- * GET /auth/user
- * Access: Private
- * Description: Returns the user information.
+/**
+ * @swagger
+ * /auth/user:
+ *   get:
+ *     summary: Returns the user information
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 age:
+ *                   type: integer
+ *                 gender:
+ *                   type: string
+ *                 nationality:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
  */
 router.get('/user', protect, getUser)
 
