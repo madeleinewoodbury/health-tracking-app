@@ -5,6 +5,11 @@ import { LoginFormData } from '../../types/auth'
 import FormInput from '../../components/forms/FormInput'
 import Button from '../../layout/Button'
 
+/**
+ * The login page component that allows users to login.
+ * The users are redirected to the home page if they are already authenticated or after successful login.
+ * @returns {JSX.Element} The login page component
+ */
 const LoginPage = () => {
 	const { login, isAuthenticated } = useAuth()
 	const navigate = useNavigate()
@@ -15,11 +20,13 @@ const LoginPage = () => {
 	})
 
 	useEffect(() => {
+		// Redirect to home page if user is already authenticated
 		if (isAuthenticated) {
 			navigate('/')
 		}
 	}, [isAuthenticated, navigate])
 
+	// Handle form submission
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		login(formData)

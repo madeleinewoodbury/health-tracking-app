@@ -8,11 +8,17 @@ import FormInput from '../../components/forms/FormInput'
 import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 
+/**
+ * The EditProviderProfile component allows a provider to edit their profile information.
+ * Will redirect to the home page if the profile is successfully updated.
+ * @returns {JSX.Element} The EditProviderProfile component
+ */
 const EditProviderProfile = () => {
 	const navigate = useNavigate()
 	const { user } = useAuth()
 	const { providerProfile, updateProviderProfile } = useProvider()
 	const { countries, fetchCountries } = useCountry()
+	// Initialize form data with existing provider profile data
 	const [formData, setFormData] = useState<ProviderProfileFormData>({
 		firstName: providerProfile ? providerProfile.firstName : '',
 		lastName: providerProfile ? providerProfile.lastName : '',
@@ -31,9 +37,11 @@ const EditProviderProfile = () => {
 	})
 
 	useEffect(() => {
+		// Fetch countries when component mounts
 		fetchCountries()
 	}, [])
 
+	// Handle form submission
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		const success = updateProviderProfile(formData)
@@ -49,6 +57,7 @@ const EditProviderProfile = () => {
 			setFormData({ ...formData, [field]: e.target.value })
 		}
 
+	// Handle location change
 	const handleLocationChange =
 		(field: 'city' | 'state' | 'countryCode') =>
 		(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

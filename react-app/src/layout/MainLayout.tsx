@@ -1,6 +1,9 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 
+/**
+ * MainLayout component wraps the Navbar and Outlet components
+ */
 const MainLayout = () => {
 	return (
 		<>

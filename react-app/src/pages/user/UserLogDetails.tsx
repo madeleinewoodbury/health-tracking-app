@@ -3,6 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useSymptomLog } from '../../hooks/symptomLog'
 import Button from '../../layout/Button'
 
+/**
+ * The UserLogDetails component displays the details of a symptom log.
+ * It fetches the log details using the fetchSymptomLog function from the useSymptomLog hook.
+ * The user can delete the log by clicking the delete button or update the log by clicking the edit button.
+ * @returns {JSX.Element} The UserLogDetails component
+ */
 const UserLogDetails = () => {
 	const { fetchSymptomLog, deleteSymptomLog, symptomLog, loading } =
 		useSymptomLog()
@@ -11,12 +17,14 @@ const UserLogDetails = () => {
 
 	useEffect(() => {
 		if (id) {
+			// Fetch the symptom log details
 			fetchSymptomLog(id)
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id])
 
+	// Handle the delete log action
 	const handleDelete = () => {
 		if (window.confirm('Are you sure you want to delete this log?')) {
 			deleteSymptomLog()
@@ -54,7 +62,6 @@ const UserLogDetails = () => {
 									<th className='py-2 px-4 text-left hidden sm:table-cell'>
 										End Date
 									</th>
-									{/* <th className='py-2 px-4 text-left'>Description</th> */}
 								</tr>
 							</thead>
 							<tbody>
@@ -72,7 +79,6 @@ const UserLogDetails = () => {
 												? new Date(entry.symptomEnd).toDateString()
 												: 'N/A'}
 										</td>
-										{/* <td className='py-2 px-4'>{entry.description || 'N/A'}</td> */}
 									</tr>
 								))}
 							</tbody>

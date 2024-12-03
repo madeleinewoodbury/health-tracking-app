@@ -5,24 +5,31 @@ import { useSymptomLog } from '../../hooks/symptomLog'
 import Button from '../../layout/Button'
 import FormInput from '../../components/forms/FormInput'
 
+/**
+ * The SymptomPatternsPage component allows the admin to view the patterns of a specific symptom
+ * and the common symptoms that occur with it.
+ * The admin can select a symptom to view the patterns.
+ * @returns {JSX.Element} The SymptomPatternsPage component
+ */
 const SymptomPatternsPage = () => {
 	const [symptom, setSymptom] = useState('')
 	const { loading, fetchSymptomPatterns, symptomPatterns } = useAdmin()
 	const { symptoms, fetchSymptoms } = useSymptomLog()
 	const navigate = useNavigate()
 
-	// TODO: Add valid symptoms
 	useEffect(() => {
+		// Fetch symptoms on component mount
 		fetchSymptoms()
 
 		// eslint-disable-next-line
 	}, [])
 
+	// Handle form submission for selecting a symptom
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (symptom === '') return
 
-		// Fetch symptom patterns
+		// Fetch symptom patterns based on the selected symptom
 		fetchSymptomPatterns(symptom)
 	}
 

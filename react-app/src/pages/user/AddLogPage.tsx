@@ -8,6 +8,12 @@ import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 import SymptomForm from '../../components/forms/SymptomForm'
 
+/**
+ * The AddLogPage component is a form that allows users to add a new symptom log.
+ * The form includes fields for the user to enter their location and select symptoms.
+ * Will redirect to the home page after successfully submitting the form.
+ * @returns {JSX.Element} The AddLogPage component
+ */
 const AddLogPage = () => {
 	const navigate = useNavigate()
 	const { countries, fetchCountries } = useCountry()
@@ -22,12 +28,14 @@ const AddLogPage = () => {
 	const [showSymptomForm, setShowSymptomForm] = useState(false)
 
 	useEffect(() => {
+		// Fetch countries and symptoms when the component mounts
 		fetchCountries()
 		fetchSymptoms()
 
 		// eslint-disable-next-line
 	}, [])
 
+	// Handle form submission
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		// Submit form data to the server
@@ -35,17 +43,21 @@ const AddLogPage = () => {
 			alert('At least one symptom is required')
 			return
 		}
+
 		const success = await createSymptomLog(formData)
+		// Redirect to the home page if the form was successfully submitted
 		if (success) {
 			navigate('/')
 		}
 	}
 
+	// Handle adding a symptom to the form data
 	const handleAddSymptom = (symptom) => {
 		setFormData({ ...formData, symptoms: [...formData.symptoms, symptom] })
 		setShowSymptomForm(false)
 	}
 
+	// Handle removing a symptom from the form data
 	const handleRemoveSymptom = (e, symptom) => {
 		e.preventDefault()
 		console.log(symptom)

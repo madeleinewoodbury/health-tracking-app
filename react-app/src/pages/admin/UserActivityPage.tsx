@@ -5,8 +5,15 @@ import LineChart from '../../components/charts/LineChart'
 import FormInput from '../../components/forms/FormInput'
 import Button from '../../layout/Button'
 
+/**
+ * This component displays the line chart with unique users per day for a given date range.
+ * The admin can select a start date and end date to view the user activity.
+ *
+ * @returns {JSX.Element} Line chart with user activity
+ */
 const UserActivityPage = () => {
 	const { loading, userActivity, fetchUserActivity } = useAdmin()
+	// Set default start date to 30 days before today
 	const [startDate, setStartDate] = useState(() => {
 		const date = new Date()
 		date.setDate(date.getDate() - 30)
@@ -18,6 +25,7 @@ const UserActivityPage = () => {
 	})
 	const navigate = useNavigate()
 
+	// Handle form submission to fetch user activity data
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (startDate === '' || endDate === '') return

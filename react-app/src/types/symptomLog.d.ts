@@ -47,12 +47,12 @@ export interface UserSymptomLog {
 		country: string
 	}
 	user: {
-		id: string,
+		id: string
 		age: number
 		gender: string
 		country: {
 			name: string
 		}
-	},
-	userSymptomEntries: SymptomEntry[]
+	}
+	symptoms: SymptomEntry[]
 }

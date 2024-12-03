@@ -10,6 +10,16 @@ interface FormInputProps {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
+/**
+ * FormInput component is a reusable input field component
+ * @param label - label for the input field
+ * @param type - type of the input field
+ * @param value - value of the input field
+ * @param placeholder - placeholder for the input field
+ * @param required - if the input field is required
+ * @param textDark - if the text color is dark
+ * @param onChange - function to handle the change event
+ */
 const FormInput: React.FC<FormInputProps> = ({
 	label = '',
 	type,

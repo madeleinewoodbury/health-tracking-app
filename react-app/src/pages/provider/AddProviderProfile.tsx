@@ -8,6 +8,11 @@ import FormInput from '../../components/forms/FormInput'
 import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 
+/**
+ * AddProviderProfile component is a form that allows a provider to create a profile
+ * Will redirect to the home page if the profile is successfully created.
+ * @returns {JSX.Element} AddProviderProfile
+ */
 const AddProviderProfile = () => {
 	const navigate = useNavigate()
 	const { user } = useAuth()
@@ -26,9 +31,11 @@ const AddProviderProfile = () => {
 	})
 
 	useEffect(() => {
+		// Fetch countries on component mount
 		fetchCountries()
 	}, [])
 
+	// Handle form submission
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		const success = createProviderProfile(formData)
@@ -44,6 +51,7 @@ const AddProviderProfile = () => {
 			setFormData({ ...formData, [field]: e.target.value })
 		}
 
+	// Handle location change
 	const handleLocationChange =
 		(field: 'city' | 'state' | 'countryCode') =>
 		(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

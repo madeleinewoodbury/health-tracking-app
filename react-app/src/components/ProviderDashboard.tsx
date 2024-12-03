@@ -3,12 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import { useProvider } from '../hooks/provider'
 import Button from '../layout/Button'
 
+/**
+ * The ProviderDashboard component displays the provider's profile details and
+ * provides options to edit or delete the profile.
+ * If the provider has not created a profile yet, the component displays a button
+ * to add a new profile.
+ * Only authenticated providers or admin users can access this component.
+ *
+ * @returns JSX.Element - ProviderDashboard component
+ */
 const ProviderDashboard = () => {
 	const navigate = useNavigate()
 	const { getProviderProfile, providerProfile, deleteProviderProfile } =
 		useProvider()
 
 	useEffect(() => {
+		// Fetch the provider's profile if it doesn't exist
 		if (!providerProfile) {
 			getProviderProfile()
 		}

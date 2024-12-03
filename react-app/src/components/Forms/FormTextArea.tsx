@@ -7,6 +7,16 @@ interface FormTextAreaProps {
 	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
+/**
+ * Reusable textarea component for forms
+ * @param label - Label for the textarea
+ * @param value - Value of the textarea
+ * @param placeholder - Placeholder text for the textarea
+ * @param required - If the textarea is required
+ * @param textDark - If the text color is dark
+ * @param onChange - OnChange event handler
+ * @returns
+ */
 const FormTextArea: React.FC<FormTextAreaProps> = ({
 	label,
 	value,

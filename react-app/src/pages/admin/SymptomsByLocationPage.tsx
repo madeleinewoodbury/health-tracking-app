@@ -7,6 +7,11 @@ import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 import BarChart from '../../components/charts/BarChart'
 
+/**
+ * The SymptomsByLocationPage component allows the admin to view the symptoms count by location.
+ * The admin can select a country, city, and state to view the symptoms count.
+ * @returns {JSX.Element} The SymptomsByLocationPage component
+ */
 const SymptomsByLocationPage = () => {
 	const { loading, fetchSymptomsByLocation, symptomsByLocation } = useAdmin()
 	const { countries, fetchCountries } = useCountry()
@@ -16,6 +21,7 @@ const SymptomsByLocationPage = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		// Fetch countries on component mount
 		if (countries.length === 0) {
 			fetchCountries()
 		} else {
@@ -27,6 +33,7 @@ const SymptomsByLocationPage = () => {
 		// eslint-disable-next-line
 	}, [countries])
 
+	// Handle form submission for selecting a location
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (country === '' || city === '') return

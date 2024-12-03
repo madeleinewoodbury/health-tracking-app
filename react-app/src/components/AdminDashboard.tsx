@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import Button from '../layout/Button'
 
+/**
+ * The AdminDashboard component displays the admin dashboard.
+ * Only accessible to users with the admin role.
+ * @returns {JSX.Element} AdminDashboard
+ */
 const AdminDashboard = () => {
 	const navigate = useNavigate()
 

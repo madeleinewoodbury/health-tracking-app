@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useSymptomLog } from '../hooks/symptomLog'
 import Button from '../layout/Button'
 
+/**
+ * The UserDashboard component displays the user's previous symptom logs and provides a button to create a new log.
+ * Only authenticated users can access this page.
+ * @returns {JSX.Element} The UserDashboard component
+ */
 const UserDashboard = () => {
 	const navigate = useNavigate()
 	const { fetchSymptomLogs, symptomLogs } = useSymptomLog()
@@ -12,6 +17,7 @@ const UserDashboard = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
+	// Redirect to the log detail page when a row is clicked
 	const handleRowClick = (logId: string) => {
 		navigate(`/log/${logId}`)
 	}

@@ -5,6 +5,13 @@ interface FormSelectProps {
 	options: { value: string; label: string }[]
 }
 
+/**
+ * Reusable select form component
+ * @param label - label for the select
+ * @param value - value of the select
+ * @param onChange - function to handle the change event
+ * @param options - array of options for the select
+ */
 const FormSelect: React.FC<FormSelectProps> = ({
 	label,
 	value,

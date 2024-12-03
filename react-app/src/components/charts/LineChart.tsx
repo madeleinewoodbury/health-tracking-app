@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 
+/**
+ * Display a line chart with unique users over time
+ * @param {Array} data - Array of objects with date and uniqueUsers
+ * @returns {JSX.Element} Line chart
+ */
 const LineChart = ({ data }) => {
 	const svgRef = useRef()
 

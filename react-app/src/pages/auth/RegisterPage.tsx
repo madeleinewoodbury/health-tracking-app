@@ -7,6 +7,11 @@ import FormInput from '../../components/forms/FormInput'
 import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 
+/**
+ * Register page component that allows users to register for an account.
+ * Will redirect to the home page if the user is already authenticated or after registration.
+ * @returns {JSX.Element} Register page component
+ */
 const RegisterPage = () => {
 	const { register, isAuthenticated } = useAuth()
 	const navigate = useNavigate()
@@ -17,8 +22,8 @@ const RegisterPage = () => {
 		username: '',
 		email: '',
 		password: '',
-		age: 18,
-		gender: 'FEMALE',
+		age: 18, // Default age
+		gender: 'FEMALE', // Default gender
 		nationality: '',
 	})
 
@@ -29,6 +34,7 @@ const RegisterPage = () => {
 	]
 
 	useEffect(() => {
+		// Redirect to home page if user is already authenticated
 		if (isAuthenticated) {
 			navigate('/')
 		}
@@ -37,6 +43,7 @@ const RegisterPage = () => {
 		// eslint-disable-next-line
 	}, [isAuthenticated, navigate])
 
+	// Handle form submission
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (formData.password !== passwordConfirmation) {

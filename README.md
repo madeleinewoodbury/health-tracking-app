@@ -16,14 +16,15 @@ The application is built with Node.js in the backend for the API, using PostgreS
 
 ## Technologies
 
-- **Backend**: 
+- **Backend**:
+
   - Node.js with TypeScript
   - REST API Design
   - Prisma ORM
   - PostgreSQL Database
 
 - **Frontend**:
-  - React 
+  - React
   - TypeScript
   - Tailwind CSS
 
@@ -32,11 +33,13 @@ The application is built with Node.js in the backend for the API, using PostgreS
 ### Roles and Access
 
 1. **Users**
+
    - Register and logs health related symptoms
    - Can view and manage personal symptom logs
    - Limited access to personal data only
 
 2. **Providers (Doctors/Clinicians)**
+
    - View user registered symptom logs
    - Restricted access to patient information
    - Can view and manage their profile
@@ -68,7 +71,7 @@ The application is built with Node.js in the backend for the API, using PostgreS
 - `GET /api/symptom`: Retrieve all symptoms from the databse
 - `GET /api/symptom/:id`: Retrieve symptom by id
 - `POST /api/symptom`: Create new symptom
-- `PUT /api/symptom/:id`: Update existing symptom 
+- `PUT /api/symptom/:id`: Update existing symptom
 - `DELETE /api/symptoms/:id`: Delete a symptom
 
 ### Country Endpoints
@@ -98,12 +101,13 @@ The application is built with Node.js in the backend for the API, using PostgreS
 
 ### Admin Endpoints
 
-- `GET /admin/geographic`: Retrieve geographic data
-- `GET /admin/activity`: Retrieve user activity data
-- `GET /admin/symptoms`: Retrieve symptom data
+- `GET /admin/geographic`: Get symptoms and counts by location
+- `GET /admin/activity`: Retrieve unique users for a given time period
+- `GET /admin/symptoms`: Retrieve most commonly registered symptoms by given symptom.
 
 ### Report Endpoints
-- `GET /api-report/user-symptom-log`: Get all user symptom logs along  with user's age, gender, and nationality. 
+
+- `GET /api-report/user-symptom-log`: Get all user symptom logs along with user's age, gender, and nationality.
 
 ### API Documentation
 
@@ -127,6 +131,7 @@ The API returns standard HTTP status codes to indicate the success or failure of
 The frontend application currently implements core functionality but several API features remain to be implemented:
 
 #### Not Yet Implemented
+
 - CRUD operations for symptoms and countries
 - Provider lookup functionality for users
 - Admin dashboard features
@@ -134,12 +139,12 @@ The frontend application currently implements core functionality but several API
 - Advanced filtering and search capabilities
 
 #### Currently Implemented
+
 - User registration and authentication
 - CRUD operations for user symptom logging and provider profiles
 - Viewing personal symptom logs
 - Provider access to symptom logs
 - Basic admin access to view user activity and symptom patterns
-
 
 ## Database Design
 
@@ -148,11 +153,13 @@ The application's database is designed to provide a flexible system for tracking
 ### User Management and Profiling
 
 The `User` model is the central entity of the application, representing individuals who interact with the system. Users are classified into three distinct roles:
+
 - `USER`: Standard users who log their personal health symptoms
 - `PROVIDER`: Healthcare professionals with extended access to symptom insights
 - `ADMIN`: System administrators with comprehensive monitoring capabilities
 
 Each user includes:
+
 - Demographic information (age, gender, nationality)
 - Authentication details (username, email, hashed password)
 - User role. (USER, ADMIN or PROVIDER)
@@ -162,10 +169,12 @@ The `ProviderProfile` extension allows healthcare professionals to add professio
 #### Symptom Tracking System
 
 - `Symptom`: A list of possible health symptoms
+
   - Serves as a standardized reference for symptom categorization
   - Includes descriptive information about each symptom
 
 - `UserSymptomLog`: Represents a user's specific log entry
+
   - Links a user to a specific geographical location
   - Acts as a container for multiple symptom entries
 
@@ -175,6 +184,7 @@ The `ProviderProfile` extension allows healthcare professionals to add professio
   - Allows for symptom description
 
 This approach enables:
+
 - Detailed symptom tracking
 - Logging of multiple symptoms within a log
 - Only logging of valid symptoms available in the database
@@ -182,6 +192,7 @@ This approach enables:
 #### Geographical Context
 
 - `Country`: Provides a standardized geographical reference
+
   - Uses alpha-2 codes for global compatibility
   - Supports international health trend analysis
 
@@ -190,6 +201,7 @@ This approach enables:
   - City and state
 
 The location models support:
+
 - Geographical tagging for symptoms
 - User and provider location associations
 - Potential future heat mapping of health trends
@@ -197,11 +209,11 @@ The location models support:
 #### Activity Context
 
 The `ActivityLog` contains user activity data:
+
 - Tracks all user interactions within the system
 - Captures request methods, endpoints, and roles
 - Logs IP addresses for security and analytical purposes (obtained trough the reques object)
 - Optional geographical context for each activity (not implemented)
-
 
 ### Performance Optimization
 
@@ -214,7 +226,7 @@ The `ActivityLog` contains user activity data:
 
 - Validate city and state inputs
 - Convert location names to coordinates using [Api Ninjas Geocoding API](https://api-ninjas.com/api/geocoding)
-- Initial country data is obtained from [REST Countries](https://restcountries.com/) 
+- Initial country data is obtained from [REST Countries](https://restcountries.com/)
 - Future expansion for map-based visualizations (not implemented)
 
 ## Getting Started

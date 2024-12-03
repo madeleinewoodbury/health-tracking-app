@@ -3,6 +3,12 @@ import FormInput from './FormInput'
 import FormTextArea from './FormTextArea'
 import Button from '../../layout/Button'
 
+/**
+ * This component is used to add a symptom to the user's symptoms list.
+ * @param {Array} props.symptoms - The list of symptoms.
+ * @param {Function} props.onAddSymptom - The function to add a symptom.
+ * @returns
+ */
 const SymptomForm = ({ symptoms, onAddSymptom }) => {
 	const [inputValue, setInputValue] = useState('')
 	const [filteredSymptoms, setFilteredSymptoms] = useState(symptoms)
@@ -14,6 +20,7 @@ const SymptomForm = ({ symptoms, onAddSymptom }) => {
 		description: '',
 	})
 
+	// Handle input change and filter symptoms based on the input value
 	const handleInputChange = (e) => {
 		const value = e.target.value
 		setInputValue(value)
@@ -24,15 +31,18 @@ const SymptomForm = ({ symptoms, onAddSymptom }) => {
 		)
 	}
 
+	// Handle symptom select and set the selected symptom
 	const handleSymptomSelect = (symptom) => {
 		setSelectedSymptom(symptom)
 		setInputValue('')
 		setFilteredSymptoms(symptoms)
 	}
 
+	// Add symptom to the user's symptoms list
 	const handleAddSymptoms = () => {
 		if (!selectedSymptom) return
 
+		// Create a symptom object
 		const symptom = {
 			id: selectedSymptom.id,
 			name: selectedSymptom.name,

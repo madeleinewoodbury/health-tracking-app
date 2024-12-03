@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 
+/**
+ * Displays a bar chart of symptoms and their counts.
+ * @param {Array} data - Array of objects with symptom and count.
+ * @returns {JSX.Element} Bar chart.
+ */
 const BarChart = ({ data }) => {
 	const svgRef = useRef()
 
