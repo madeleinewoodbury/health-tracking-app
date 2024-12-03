@@ -21,12 +21,18 @@ import AddProviderProfile from "./pages/provider/AddProviderProfile";
 import EditProviderProfile from "./pages/provider/EditProviderProfile";
 import ViewSymptomLogs from "./pages/provider/ViewSymptomLogs";
 
+/**
+ * Router Component
+ * Manages routing and protected routes
+ */
 const Router = () => {
+  // AuthProtectedRoute Component - Protects routes that require authentication
   const AuthProtectedRoute = ({ element }: { element: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
 
+  // AdminProtectedRoute Component - Protects routes that require admin role
   const AdminProtectedRoute = ({ element }: { element: JSX.Element }) => {
     const { isAuthenticated, user } = useAuth();
     return isAuthenticated && user?.role === "ADMIN" ? (
@@ -36,6 +42,7 @@ const Router = () => {
     );
   };
 
+  // ProviderOrAdminProtectedRoute Component - Protects routes that require provider or admin role
   const ProviderOrAdminProtectedRoute = ({
     element,
   }: {
@@ -50,6 +57,7 @@ const Router = () => {
     );
   };
 
+  // Create browser router and routes
   const router = createBrowserRouter(
     createRoutesFromElements([
       <Route path="/" element={<MainLayout />}>

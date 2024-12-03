@@ -6,6 +6,10 @@ import { SymptomLogProvider } from './context/SymptomLogContext'
 import { ProviderProvider } from './context/ProviderContext'
 import Router from './Router'
 
+/**
+ * The main component of the application.
+ * It wraps the entire application with the context providers and the router.
+ */ 
 const App = () => {
 	return (
 		<AuthProvider>

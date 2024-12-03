@@ -2,6 +2,12 @@ import { useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import { AuthContextType } from '../types/auth'
 
+/**
+ * Hook to access authentication context
+ * Provides user data and auth methods
+ *
+ * @returns {AuthContextType} Auth context data
+ */
 export const useAuth = (): AuthContextType => {
 	const context = useContext(AuthContext)
 	if (!context) {
