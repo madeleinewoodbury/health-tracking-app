@@ -17,6 +17,8 @@ import EditLogPage from './pages/user/EditLogPage'
 import UserActivityPage from './pages/admin/UserActivityPage'
 import SymptomPatternsPage from './pages/admin/SymptomPatternsPage'
 import SymptomsByLocationPage from './pages/admin/SymptomsByLocationPage'
+import AddProviderProfile from './pages/provider/AddProviderProfile'
+import EditProviderProfile from './pages/provider/EditProviderProfile'
 
 const Router = () => {
 	const AuthProtectedRoute = ({ element }: { element: JSX.Element }) => {
@@ -62,6 +64,14 @@ const Router = () => {
 				<Route
 					path='/symptoms/patterns'
 					element={<AdminProtectedRoute element={<SymptomPatternsPage />} />}
+				/>
+				<Route
+					path='/add-profile'
+					element={<AuthProtectedRoute element={<AddProviderProfile />} />}
+				/>
+				<Route
+					path='/edit-profile'
+					element={<AuthProtectedRoute element={<EditProviderProfile />} />}
 				/>
 			</Route>,
 		])

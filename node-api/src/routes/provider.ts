@@ -6,6 +6,7 @@ import {
 	createProvider,
 	getProvider,
 	getProviderById,
+	getProviderByUserId,
 	updateProvider,
 	deletedProvider,
 } from '../handlers/provider'
@@ -110,6 +111,46 @@ router.post(
  *                         type: string
  */
 router.get('/provider', getProvider)
+
+/**
+ * @swagger
+ * /provider/user:
+ *   get:
+ *     summary: Get provider by user ID
+ *     tags: [Provider]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Provider details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 firstName:
+ *                   type: string
+ *                 lastName:
+ *                   type: string
+ *                 specialty:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *                 location:
+ *                   type: object
+ *                   properties:
+ *                     city:
+ *                       type: string
+ *                     state:
+ *                       type: string
+ *                     countryCode:
+ *                       type: string
+ *       404:
+ *         description: Provider not found
+ */
+router.get('/provider/user', getProviderByUserId)
 
 /**
  * @swagger

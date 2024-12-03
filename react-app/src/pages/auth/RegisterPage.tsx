@@ -44,8 +44,6 @@ const RegisterPage = () => {
 			return
 		}
 
-		console.log(formData)
-
 		register(formData)
 	}
 

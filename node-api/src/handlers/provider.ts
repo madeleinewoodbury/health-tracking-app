@@ -42,7 +42,20 @@ export const createProvider = async (req, res) => {
 					title: req.body.title || null,
 				},
 				include: {
-					location: true,
+					location: {
+						select: {
+							city: true,
+							state: true,
+							countryId: true,
+							country: {
+								select: {
+									id: true,
+									name: true,
+									alpha2: true,
+								},
+							},
+						},
+					},
 				},
 			})
 
@@ -103,7 +116,59 @@ export const getProviderById = async (req, res) => {
 		const provider = await prisma.providerProfile.findUnique({
 			where: { id: req.params.id },
 			include: {
-				location: true,
+				location: {
+					select: {
+						city: true,
+						state: true,
+						countryId: true,
+						country: {
+							select: {
+								id: true,
+								name: true,
+								alpha2: true,
+							},
+						},
+					},
+				},
+			},
+		})
+
+		// Send response with provider details
+		res.json({ data: provider })
+	} catch (error) {
+		console.error('Failed to fetch provider:', error)
+		res.status(500).json({ error: 'Internal Server Error' })
+	}
+}
+
+/**
+ * Retrieves the provider profile associated with the user ID from the request.
+ *
+ * @param req - The request object, containing the user ID.
+ * @param res - The response object used to send back the provider details or an error message.
+ *
+ * @returns A JSON response with the provider details if found, or an error message if an error occurs.
+ */
+export const getProviderByUserId = async (req, res) => {
+	try {
+		// Get provider by ID
+		const provider = await prisma.providerProfile.findUnique({
+			where: { providerId: req.user.id },
+			include: {
+				location: {
+					select: {
+						city: true,
+						state: true,
+						countryId: true,
+						country: {
+							select: {
+								id: true,
+								name: true,
+								alpha2: true,
+							},
+						},
+					},
+				},
 			},
 		})
 
@@ -191,7 +256,20 @@ export const updateProvider = async (req, res) => {
 					title: req.body.title || provider.title,
 				},
 				include: {
-					location: true,
+					location: {
+						select: {
+							city: true,
+							state: true,
+							countryId: true,
+							country: {
+								select: {
+									id: true,
+									name: true,
+									alpha2: true,
+								},
+							},
+						},
+					},
 				},
 			})
 		})
