@@ -2,22 +2,21 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCountry } from '../../hooks/country'
 import { useSymptomLog } from '../../hooks/symptomLog'
-import { useAuth } from '../../hooks/auth'
 import FormInput from '../../components/forms/FormInput'
 import FormSelect from '../../components/forms/FormSelect'
 import Button from '../../layout/Button'
 import SymptomForm from '../../components/forms/SymptomForm'
 
-const AddLogPage = () => {
+const EditLogPage = () => {
 	const navigate = useNavigate()
 	const { countries, fetchCountries } = useCountry()
-	const { symptoms, fetchSymptoms, createSymptomLog } = useSymptomLog()
-	const { user } = useAuth()
+	const { symptoms, fetchSymptoms, updateSymptomLog, symptomLog } =
+		useSymptomLog()
 	const [formData, setFormData] = useState({
-		city: '',
-		state: '',
-		country: user ? user.country.alpha2 : '',
-		symptoms: [],
+		city: symptomLog ? symptomLog.location.city : '',
+		state: symptomLog ? symptomLog.location.state || '' : '',
+		country: symptomLog ? symptomLog.location.country : '',
+		symptoms: symptomLog ? symptomLog.symptoms : [],
 	})
 	const [showSymptomForm, setShowSymptomForm] = useState(false)
 
@@ -25,8 +24,19 @@ const AddLogPage = () => {
 		fetchCountries()
 		fetchSymptoms()
 
+		if (countries.length > 0) {
+			const country = countries.find(
+				(country) => country.name === formData.country
+			)
+			if (country) {
+				setFormData({ ...formData, country: country.alpha2 })
+			} else {
+				setFormData({ ...formData, country: countries[0].alpha2 })
+			}
+		}
+
 		// eslint-disable-next-line
-	}, [])
+	}, [countries.length])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -35,9 +45,12 @@ const AddLogPage = () => {
 			alert('At least one symptom is required')
 			return
 		}
-		const success = await createSymptomLog(formData)
-		if (success) {
-			navigate('/')
+
+		if (symptomLog && symptomLog.id) {
+			const success = await updateSymptomLog(symptomLog?.id, formData)
+			if (success) {
+				navigate(`/log/${symptomLog.id}`)
+			}
 		}
 	}
 
@@ -58,7 +71,7 @@ const AddLogPage = () => {
 	return (
 		<div className='lex flex-col items-center w-full max-w-xl mx-auto bg-neutral-800 rounded-lg shadow-md p-8'>
 			<h1 className='text-white text-3xl font-semibold mb-6 text-center'>
-				Add Symptom Log
+				Edit Symptom Log
 			</h1>
 			<form onSubmit={handleSubmit}>
 				<h3 className='text-white text-xl mb-2'>Enter Location</h3>
@@ -88,7 +101,7 @@ const AddLogPage = () => {
 					</div>
 				</div>
 				<FormSelect
-					label='Nationality'
+					label='Country'
 					value={formData.country}
 					onChange={(e) =>
 						setFormData({ ...formData, country: e.target.value })
@@ -128,7 +141,7 @@ const AddLogPage = () => {
 							Add Symptoms
 						</Button>
 						<Button type='submit' variant='success'>
-							Submit Log
+							Update Log
 						</Button>
 					</div>
 				)}
@@ -137,4 +150,4 @@ const AddLogPage = () => {
 	)
 }
 
-export default AddLogPage
+export default EditLogPage

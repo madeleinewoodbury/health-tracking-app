@@ -80,7 +80,7 @@ const UserLogDetails = () => {
 					</div>
 					<div className='mt-6 flex justify-between'>
 						<div className='flex gap-2'>
-							<Button onClick={() => navigate(`/edit-log/${id}`)}>Edit</Button>
+							<Button onClick={() => navigate('/edit-log')}>Edit</Button>
 							<Button onClick={handleDelete} variant='danger'>
 								Delete
 							</Button>

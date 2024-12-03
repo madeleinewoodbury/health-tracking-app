@@ -209,6 +209,52 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	const updateSymptomLog = async (logId: string, formData) => {
+		try {
+			setLoading(true)
+			const token = localStorage.getItem('token')
+			if (!token) {
+				throw new Error('User not authenticated')
+			}
+
+			const body = {
+				location: {
+					city: formData.city,
+					...(formData.state && { state: formData.state }),
+					countryCode: formData.country,
+				},
+				symptoms: formData.symptoms.map((symptom) => ({
+					id: symptom.id,
+					...(symptom.severity && { severity: symptom.severity }),
+					...(symptom.symptomStart && { symptomStart: symptom.symptomStart }),
+					...(symptom.symptomEnd && { symptomEnd: symptom.symptomEnd }),
+					...(symptom.description && { description: symptom.description }),
+				})),
+			}
+
+			const response = await fetch(`/server/api/user-symptom-log/${logId}`, {
+				method: 'PUT',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(body),
+			})
+
+			const data = await response.json()
+
+			if (!response.ok) {
+				throw new Error(data.message)
+			}
+
+			return true
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	const resetState = () => {
 		setSymptomLogs([])
 		setSymptomLog(null)
@@ -223,6 +269,7 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 				deleteSymptomLog,
 				fetchSymptoms,
 				createSymptomLog,
+				updateSymptomLog,
 				resetState,
 				symptomLogs,
 				symptomLog,

@@ -13,6 +13,7 @@ import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import UserLogDetails from './pages/user/UserLogDetails'
 import AddLogPage from './pages/user/AddLogPage'
+import EditLogPage from './pages/user/EditLogPage'
 import UserActivityPage from './pages/admin/UserActivityPage'
 import SymptomPatternsPage from './pages/admin/SymptomPatternsPage'
 import SymptomsByLocationPage from './pages/admin/SymptomsByLocationPage'
@@ -45,6 +46,10 @@ const Router = () => {
 				<Route
 					path='/new-log'
 					element={<AuthProtectedRoute element={<AddLogPage />} />}
+				/>
+				<Route
+					path='/edit-log'
+					element={<AuthProtectedRoute element={<EditLogPage />} />}
 				/>
 				<Route
 					path='/activity/users'
