@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/auth'
 import { useSymptomLog } from '../hooks/symptomLog'
 
 const Navbar = () => {
-	const { isAuthenticated, logout } = useAuth()
+	const { isAuthenticated, logout, user } = useAuth()
 	const { resetState } = useSymptomLog()
 	const linkClass = ({ isActive }: { isActive: boolean }) =>
 		isActive
@@ -24,11 +24,18 @@ const Navbar = () => {
 				</NavLink>
 				<div className='flex gap-8'>
 					{isAuthenticated ? (
+						<>
+						{user?.role === 'PROVIDER' &&
+						<NavLink to='/view-logs' className={linkClass}>
+							View Logs
+						</NavLink>
+						}
 						<button
 							className='text-white hover:text-blue-400'
 							onClick={handleLogout}>
 							Logout
 						</button>
+						</>
 					) : (
 						<>
 							<NavLink to='/login' className={linkClass}>

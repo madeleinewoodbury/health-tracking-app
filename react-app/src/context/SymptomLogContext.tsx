@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from 'react'
-import { SymptomLogContextType, SymptomLog } from '../types/symptomLog'
+import { SymptomLogContextType, SymptomLog, UserSymptomLog } from '../types/symptomLog'
 
 const SymptomLogContext = createContext<SymptomLogContextType | null>(null)
 
@@ -7,6 +7,7 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 	const [symptomLogs, setSymptomLogs] = useState<SymptomLog[]>([])
 	const [symptomLog, setSymptomLog] = useState<SymptomLog | null>(null)
 	const [symptoms, setSymptoms] = useState([])
+	const [userSymptomLogs, setUserSymptomLogs] = useState<UserSymptomLog[]>([])
 	const [loading, setLoading] = useState(false)
 
 	const fetchSymptomLogs = async () => {
@@ -255,15 +256,74 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
+	const fetchUserSymptomLogs = async () => {
+		try {
+			setLoading(true)
+			const token = localStorage.getItem('token')
+			if (!token) {
+				throw new Error('User not authenticated')
+			}
+
+			const response = await fetch('/server/api/report/user-symptom-log', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			const data = await response.json()
+
+			if (!response.ok) {
+				throw new Error(data.message)
+			}
+
+			const logs = data.data.map((log: any) => ({
+				id: log.id,
+				recordedAt: new Date(log.recordedAt),
+				location: {
+					city: log.location.city,
+					state: log.location.state || null,
+					country: log.location.country.name,
+				},
+				user: {
+					id: log.user.id,
+					age: log.user.age,
+					gender: log.user.gender,
+					country: {
+						name: log.user.country.name,
+					},
+				},
+				symptoms: log.userSymptomEntries.map((entry: any) => ({
+					id: entry.symptom.id,
+					name: entry.symptom.name,
+					severity: entry.severity || null,
+					description: entry.description || null,
+					symptomStart: entry.symptomStart
+						? new Date(entry.symptomStart)
+						: null,
+					symptomEnd: entry.symptomEnd ? new Date(entry.symptomEnd) : null,
+				})),
+
+			}))
+
+			setUserSymptomLogs(logs)
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	const resetState = () => {
 		setSymptomLogs([])
 		setSymptomLog(null)
 		setSymptoms([])
+		setLoading(false)
+		setUserSymptomLogs([])
 	}
 
 	return (
 		<SymptomLogContext.Provider
 			value={{
+				fetchUserSymptomLogs,
 				fetchSymptomLogs,
 				fetchSymptomLog,
 				deleteSymptomLog,
@@ -271,6 +331,7 @@ export const SymptomLogProvider = ({ children }: { children: ReactNode }) => {
 				createSymptomLog,
 				updateSymptomLog,
 				resetState,
+				userSymptomLogs,
 				symptomLogs,
 				symptomLog,
 				symptoms,

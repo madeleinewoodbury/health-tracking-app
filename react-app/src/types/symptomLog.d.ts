@@ -1,4 +1,5 @@
 interface SymptomLogContextType {
+	fetchUserSymptomLogs: () => void
 	fetchSymptomLogs: () => void
 	fetchSymptomLog: (logId: string) => void
 	deleteSymptomLog: () => void
@@ -9,6 +10,7 @@ interface SymptomLogContextType {
 		formData: SymptomLogFormData
 	) => Promise<boolean>
 	resetState: () => void
+	userSymptomLogs: UserSymptomLog[]
 	symptoms: Symptom[]
 	symptomLogs: SymptomLog[]
 	symptomLog: SymptomLog | null
@@ -18,7 +20,7 @@ interface SymptomLogContextType {
 export interface SymptomLog {
 	id: string
 	recordedAt: Date
-	updatedAt: Date
+	updatedAt: Date | null
 	location: {
 		city: string
 		state: string | null
@@ -34,4 +36,23 @@ export interface SymptomEntry {
 	description: string | null
 	symptomStart: Date | null
 	symptomEnd: Date | null
+}
+
+export interface UserSymptomLog {
+	id: string
+	recordedAt: Date
+	location: {
+		city: string
+		state: string | null
+		country: string
+	}
+	user: {
+		id: string,
+		age: number
+		gender: string
+		country: {
+			name: string
+		}
+	},
+	userSymptomEntries: SymptomEntry[]
 }
