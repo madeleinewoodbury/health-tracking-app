@@ -381,4 +381,4 @@ Prisma Studio is a visual editor for your database. You can use it to view and e
 npx prisma studio
 ```
 
-- Access Prisma Studio: (http://localhost:5555)[http://localhost:5555]
+- Access Prisma Studio: [http://localhost:5555](http://localhost:5555)
