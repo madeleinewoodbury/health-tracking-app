@@ -100,7 +100,7 @@ const AddLogPage = () => {
 					</div>
 				</div>
 				<FormSelect
-					label='Nationality'
+					label='Country'
 					value={formData.country}
 					onChange={(e) =>
 						setFormData({ ...formData, country: e.target.value })

@@ -146,6 +146,22 @@ The frontend application currently implements core functionality but several API
 - Provider access to symptom logs
 - Basic admin access to view user activity and symptom patterns
 
+### Backend Implementation Notes
+
+The backend application currently implements core functionality but several features remain to be implemented:
+
+#### Not Yet Implemented
+
+- Strategy for handling growing activity logs
+
+#### Currently Implemented
+
+- User registration and authentication
+- CRUD operations for symptoms, countries, user symptom logs, and provider profiles
+- Role-based access control
+- Activity tracking middleware
+- Error handling and input validation
+
 ## Database Design
 
 The application's database is designed to provide a flexible system for tracking health symptoms, user interactions, and geographical contexts. The data model emphasizes relationships between users, symptoms, locations, and system activities. A view of the ER-model can be found in the `docs` folder.
