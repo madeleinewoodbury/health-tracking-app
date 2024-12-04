@@ -266,8 +266,8 @@ async function seedSymptoms() {
 }
 
 async function main() {
-	// await seedCountries()
-	// await seedSymptoms()
+	await seedCountries()
+	await seedSymptoms()
 }
 
 main()

@@ -245,12 +245,140 @@ The `ActivityLog` contains user activity data:
 - Initial country data is obtained from [REST Countries](https://restcountries.com/)
 - Future expansion for map-based visualizations (not implemented)
 
-## Getting Started
+## Installation
 
 ### Prerequisites
 
 - Node.js (v16+ recommended)
-- PostgreSQL
+- Docker (optional)
+- PostgreSQL (if not using Docker)
 - npm or yarn
 
-### Installation
+### Setup
+
+#### Using Docker
+
+1. **Set up Docker Database Container**
+
+- Ensure Docker is running on your machine.
+- In the root directory of the project, run:
+
+```sh
+docker-compose up -d
+```
+
+3.**Import Database Data**
+
+- Copy the SQL dump file into the Docker container (make sure you're in the root directory of the project):
+
+```sh
+docker cp db_dump.sql health-tracker-db:/db_dump.sql
+```
+
+- Run sql script to add data to database
+
+```sh
+docker exec -i health-tracker-db psql -U postgres -d health-tracker-db -f /db_dump.sql
+```
+
+4. **Set Up Environment Variables**
+
+- Navigate to the Node API folde
+
+```sh
+cd node-api
+```
+
+- Make sure a .env file in the node-api directory with the environment variables. Example:
+
+```sh
+DATABASE_URL="postgresql://your_username:your_password@localhost:5431/health-tracker-db"
+```
+
+5. **Install dependencies**
+
+- Make sure you are in the `node-api` directory
+
+```sh
+npm install
+```
+
+6. **Generate the Prisma Client**
+
+```sh
+npx prisma generate
+```
+
+- Push the Prisma schema to the database
+
+```sh
+npx prisma db push
+```
+
+7. **Run the Server**
+
+```sh
+npm run dev
+```
+
+8. **Setup the React Application**
+
+- Navigate the to the `react-app`
+
+```sh
+# From the root directory
+cd react-app
+```
+
+- Install dependencies
+
+```sh
+npm install
+```
+
+- Run the React app
+
+```sh
+npm run dev
+```
+
+#### Without Docker
+
+1. **Set Up PostgreSQL Locally**
+
+- Install PostgreSQL on your machine.
+- Create a new database:
+
+```sh
+createdb health-tracker-db
+```
+
+2. **Import Database Data**
+   Run the SQL script to add data to the database:
+
+```sh
+psql -U your_username -d health-tracker-db -f db_dump.sql
+```
+
+3. **Set up API and React App**
+
+- Follow the steps 4-8 from above
+
+## Accessing the Application
+
+- Backend API: [http://localhost:5200](http://localhost:5200)
+- Frontend Application: [http://localhost:3000](http://localhost:3000)
+- Swagger UI: [http://localhost:5200/api-docs](http://localhost:5200/api-docs)
+- ReDoc: [http://localhost:5200/redoc](http://localhost:5200/redoc)
+
+### Accessing Prisma Studio
+
+Prisma Studio is a visual editor for your database. You can use it to view and edit your data.
+
+- Run Prisma Studio:
+
+```sh
+npx prisma studio
+```
+
+- Access Prisma Studio: (http://localhost:5555)[http://localhost:5555]

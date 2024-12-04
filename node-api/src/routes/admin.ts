@@ -96,14 +96,17 @@ router.get(
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   symptom:
- *                     type: string
- *                   count:
- *                     type: integer
+ *               type: object
+ *               properties:
+ *                 symptoms:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       symptom:
+ *                         type: string
+ *                       count:
+ *                         type: integer
  *       400:
  *         description: Bad request
  */
