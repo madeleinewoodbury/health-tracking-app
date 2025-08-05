@@ -33,3 +33,5 @@ react-client/build
 *.swp
 .idea/
 .vscode/
+
+docs

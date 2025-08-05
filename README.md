@@ -289,10 +289,12 @@ docker exec -i health-tracker-db psql -U postgres -d health-tracker-db -f /db_du
 cd node-api
 ```
 
-- Make sure a .env file in the node-api directory with the environment variables. Example:
+- Create a .env file in the node-api directory with the following environment variables:
 
 ```sh
 DATABASE_URL="postgresql://your_username:your_password@localhost:5431/health-tracker-db"
+JWT_SECRET="your_jwt_secret_key_here"
+API_NINJAS_KEY="your_api_ninjas_key_here"
 ```
 
 5. **Install dependencies**
@@ -382,3 +384,24 @@ npx prisma studio
 ```
 
 - Access Prisma Studio: [http://localhost:5555](http://localhost:5555)
+
+## Demo Credentials
+
+For testing different user roles, use these pre-loaded accounts:
+
+### Standard User
+- **Username**: `kalle`
+- **Password**: `melonfarmer45`
+- **Role**: Can log symptoms and view personal data
+
+### Healthcare Provider
+- **Username**: `turk`
+- **Password**: `melonfarmer45`
+- **Role**: Can view user symptom logs and manage provider profile
+
+### Administrator
+- **Username**: `kellyb`
+- **Password**: `melonfarmer45`
+- **Role**: Full access to analytics, user activity, and system management
+
+**Note**: These are demo accounts with sample data for demonstration purposes.
